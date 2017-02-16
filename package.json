@@ -1,0 +1,13 @@
+{
+  "name": "ndev-framework",
+  "version": "0.0.1"
+  "author": {
+    "name": "Francesco Bianco",
+    "email": "bianco@javanile.org"
+  },
+  "bin": {
+    "karma": "./bin/karma"
+  },
+  "scripts": {
+  },
+}
