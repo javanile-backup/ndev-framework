@@ -6,7 +6,7 @@
     "email": "bianco@javanile.org"
   },
   "bin": {
-    "karma": "./bin/karma"
+    "ndev": "./bin/ndev"
   },
   "scripts": {
   },
