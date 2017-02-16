@@ -1,6 +1,6 @@
 {
   "name": "ndev-framework",
-  "version": "0.0.1"
+  "version": "0.0.2",
   "author": {
     "name": "Francesco Bianco",
     "email": "bianco@javanile.org"
@@ -9,5 +9,5 @@
     "ndev": "./bin/ndev"
   },
   "scripts": {
-  },
+  }
 }
