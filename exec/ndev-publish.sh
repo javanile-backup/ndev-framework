@@ -6,6 +6,8 @@ ver=$(cat package.json | grep version | tr -d ',":')
 
 git add *
 
+git config push.default simple
+
 git commit -m "$ver"
 
 git push
