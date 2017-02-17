@@ -1,11 +1,11 @@
 #!/bin/bash
 
-ver=$(cat package.json | grep version)
+ver=$(cat package.json | grep version | tr -d ',":')
 
 git add *
 
-git commit -m "$ver"
+git commit -m "released $ver"
 
 git push
 
-#npm publish
+npm publish
