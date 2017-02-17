@@ -80,6 +80,9 @@ function ndev_publish(args) {
     var name = args[1];
 
     //
+    console.log("Please wait during publish...");
+
+    //
     exec(__dirname + "/../exec/ndev-publish.sh " + path + " " + name,
         function (error, stdout, stderr) {
             console.log(stderr.trim(), stdout);
@@ -101,6 +104,9 @@ function ndev_project(args) {
 
     //
     var name = args[2] ? args[2] : basename(repo, ".git");
+
+    //
+    console.log("Please wait during project creatrion...");
 
     //
     exec(__dirname + "/../exec/ndev-project.sh " + path + " " + repo + " " + name,
