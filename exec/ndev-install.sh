@@ -10,7 +10,7 @@ done
 
 ##
 cd $1
-echo npm install $2
+npm install $2
 
 ##
 cd $1/ndev_modules

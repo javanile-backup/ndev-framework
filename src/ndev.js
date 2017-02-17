@@ -61,7 +61,7 @@ function ndev_install(args) {
     //
     exec(__dirname + "/../exec/ndev-install.sh " + path + " " + args.slice(1).join(" "),
         function (error, stdout, stderr) {
-            console.log(stderr.trim());
+            console.log(!stderr ? stdout.trim() : stderr.trim());
         }
     );
 }
