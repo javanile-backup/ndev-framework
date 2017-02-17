@@ -1,3 +1,4 @@
 #!/usr/bin/env node
 
+// call command-line utility
 require("../src/ndev").run(process.argv.slice(2));

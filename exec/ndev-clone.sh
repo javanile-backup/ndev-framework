@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+##
 cd $1
 mkdir ndev_modules > /dev/null 2>&1
 mkdir node_modules > /dev/null 2>&1
