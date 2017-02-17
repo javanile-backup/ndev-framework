@@ -14,9 +14,10 @@ module.exports = {
         //
         switch (tool) {
             case "clone": return ndev_clone(args);
+            default: console.error("Undefined tool:", tool);
         }
     }
-};
+}
 
 //
 function ndev_clone(args) {
@@ -29,7 +30,7 @@ function ndev_clone(args) {
 
     exec(__dirname + "/../exec/ndev-clone.sh " + path + " " + repo + " " + name,
         function (error, stdout, stderr) {
-            console.log(stderr);
+            console.log(stderr.trim());
         }
     );
 }
