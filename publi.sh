@@ -4,7 +4,7 @@ ver=$(cat package.json | grep version | tr -d ',":')
 
 git add *
 
-git commit -m "built $ver"
+git commit -m "$ver"
 
 git push
 
