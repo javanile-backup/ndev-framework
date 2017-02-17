@@ -6,6 +6,6 @@ git add *
 
 git commit -m "$ver"
 
-git pull
+git push
 
-npm publish
+#npm publish
