@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd ../..
+cd ..
 mkdir ndev_modules > /dev/null 2>&1
 mkdir node_modules > /dev/null 2>&1
 rm -fr ndev_modules/$2

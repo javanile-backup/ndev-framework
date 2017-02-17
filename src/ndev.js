@@ -9,9 +9,9 @@ module.exports = {
 
         var name = args[1];
 
-        exec("./exec/ndev.sh " + repo + " " + name,
+        exec(__dirname + "/../exec/ndev.sh " + repo + " " + name,
             function (error, stdout, stderr) {
-                console.log(stderr);
+                console.log(stderr.trim());
             }
         );
     }
