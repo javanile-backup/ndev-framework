@@ -24,6 +24,7 @@ module.exports = {
             case "clone": return ndev_clone(args);
             case "install": return ndev_install(args);
             case "publish": return ndev_publish(args);
+            case "project": return ndev_project(args);
             default: console.error("Undefined tool:", tool);
         }
     }
@@ -86,6 +87,28 @@ function ndev_publish(args) {
     );
 }
 
+//
+function ndev_project(args) {
+
+    //
+    if (!args[1]) {
+        console.error("Error repository required.");
+        return;
+    }
+
+    //
+    var repo = args[1];
+
+    //
+    var name = args[2] ? args[2] : basename(repo, ".git");
+
+    //
+    exec(__dirname + "/../exec/ndev-project.sh " + path + " " + repo + " " + name,
+        function (error, stdout, stderr) {
+            console.log(stderr.trim());
+        }
+    );
+}
 
 
 
