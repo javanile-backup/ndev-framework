@@ -106,7 +106,7 @@ function ndev_project(args) {
     var name = args[2] ? args[2] : basename(repo, ".git");
 
     //
-    console.log("Please wait during project creatrion...");
+    console.log("Please wait during project creation...");
 
     //
     exec(__dirname + "/../exec/ndev-project.sh " + path + " " + repo + " " + name,
