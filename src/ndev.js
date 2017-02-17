@@ -56,9 +56,11 @@ function ndev_clone(args) {
 function ndev_install(args) {
 
     //
+    console.log("Please wait during install...");
+
+    //
     exec(__dirname + "/../exec/ndev-install.sh " + path + " " + args.slice(1).join(" "),
         function (error, stdout, stderr) {
-            console.log(stdout);
             console.log(stderr.trim());
         }
     );

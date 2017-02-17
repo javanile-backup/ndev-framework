@@ -8,7 +8,6 @@ for d in * ; do
   fi
 done
 
-
 ##
 cd $1
 echo npm install $2
