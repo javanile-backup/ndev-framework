@@ -9,4 +9,3 @@ git config push.default simple
 git commit -m "$ver"
 git pull
 git push
-npm publish
