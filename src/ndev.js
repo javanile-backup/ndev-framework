@@ -135,7 +135,7 @@ function i (msg) { console.log("(ndev)", msg); }
  *
  * @param msg
  */
-function e (msg) { console.error("(ndev)", msg.split("\n").join("\n     ")); }
+function e (msg) { console.error("(ndev)", msg.split("\n").join("\n       ")); }
 
 
 
