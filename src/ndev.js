@@ -117,11 +117,9 @@ function ndev_commit(args) {
     if (!args[1]) { return e("Required ndev module to commit."); }
 
     i("Please wait during commit...");
-    var name = args[1];
+    var name = args[1].trim();
     exec(__dirname + "/../exec/ndev-commit.sh " + path + " " + name,
-        function (error, stdout, stderr) {
-            console.log(stderr.trim());
-        }
+        function (error, stdout, stderr) { e(stderr.trim()); }
     );
 }
 
@@ -137,7 +135,7 @@ function i (msg) { console.log("(ndev)", msg); }
  *
  * @param msg
  */
-function e (msg) { console.error("(ndev)", msg); }
+function e (msg) { console.error("(ndev)", msg.split("\n").join("     ")); }
 
 
 
