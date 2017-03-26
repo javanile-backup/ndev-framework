@@ -120,7 +120,7 @@ function ndev_commit(args) {
     var name = args[1];
     exec(__dirname + "/../exec/ndev-commit.sh " + path + " " + name,
         function (error, stdout, stderr) {
-            console.log(stderr.trim(), stdout);
+            console.log(stderr.trim());
         }
     );
 }
