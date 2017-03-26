@@ -19,6 +19,8 @@ module.exports = {
             case "mount": ndev_mount(args); break;
             case "install": ndev_install(args); break;
             case "publish": ndev_publish(args); break;
+            case "--version": ndev_publish(args); break;
+            case "--help": ndev_publish(args); break;
             default: console.error("(ndev) Undefined command:", args[0]);
         }
     }
