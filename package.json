@@ -13,6 +13,5 @@
   "bin": {
     "ndev": "./bin/ndev"
   },
-  "scripts": {
-  }
+  "scripts": {}
 }

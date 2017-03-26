@@ -16,9 +16,9 @@ module.exports = {
     run: function(args) {
         switch (args[0]) {
             case "clone": ndev_clone(args); break;
+            case "mount": ndev_mount(args); break;
             case "install": ndev_install(args); break;
             case "publish": ndev_publish(args); break;
-            case "project": ndev_project(args); break;
             default: console.error("(ndev) Undefined command:", args[0]);
         }
     }
@@ -41,7 +41,7 @@ function ndev_clone(args) {
         var name = args[2] ? args[2] : base(repo, ".git");
         exec(__dirname + "/../exec/ndev-clone-pack.sh " + path + " " + repo + " " + name,
             function (error, stdout, stderr) {
-                console.log(stderr.trim());
+                console.log("(ndev)", stderr.trim());
             }
         );
     }
@@ -53,6 +53,24 @@ function ndev_clone(args) {
         function (error, stdout, stderr) {
             console.log(stderr.trim());
         }
+    );
+}
+
+/**
+ *
+ *
+ * @param args
+ */
+function ndev_mount(args) {
+    if (!args[1]) {
+        console.error("(ndev) Required node module to mount.");
+        return;
+    }
+
+    //
+    var node = args[1].trim();
+    exec(__dirname + "/../exec/ndev-mount.sh " + path + " " + node,
+        function (error, stdout, stderr) { i(stderr.trim()); }
     );
 }
 
@@ -88,31 +106,18 @@ function ndev_publish(args) {
     );
 }
 
-//
-function ndev_project(args) {
-    if (!args[1]) { return e("Error repository required."); }
-
-    //
-    var repo = args[1];
-
-    //
-    var name = args[2] ? args[2] : base(repo, ".git");
-
-    //
-    console.log("Please wait during project creation...");
-
-    //
-    exec(__dirname + "/../exec/ndev-project.sh " + path + " " + repo + " " + name,
-        function (error, stdout, stderr) {
-            console.log(stderr.trim());
-        }
-    );
-}
-
 /**
+ * Print info message.
  *
+ * @param msg
  */
 function i (msg) { console.log("(ndev)", msg); }
+
+/**
+ * Print error message.
+ *
+ * @param msg
+ */
 function e (msg) { console.error("(ndev)", msg); }
 
 
