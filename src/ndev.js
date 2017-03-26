@@ -18,6 +18,7 @@ module.exports = {
             case "clone": ndev_clone(args); break;
             case "mount": ndev_mount(args); break;
             case "install": ndev_install(args); break;
+            case "commit": ndev_commit(args); break;
             case "publish": ndev_publish(args); break;
             case "--version": ndev_publish(args); break;
             case "--help": ndev_publish(args); break;
@@ -102,6 +103,22 @@ function ndev_publish(args) {
     i("Please wait during publish...");
     var name = args[1];
     exec(__dirname + "/../exec/ndev-publish.sh " + path + " " + name,
+        function (error, stdout, stderr) {
+            console.log(stderr.trim(), stdout);
+        }
+    );
+}
+
+/**
+ *
+ * @param args
+ */
+function ndev_commit(args) {
+    if (!args[1]) { return e("Required ndev module to commit."); }
+
+    i("Please wait during commit...");
+    var name = args[1];
+    exec(__dirname + "/../exec/ndev-commit.sh " + path + " " + name,
         function (error, stdout, stderr) {
             console.log(stderr.trim(), stdout);
         }
