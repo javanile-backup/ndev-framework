@@ -1,4 +1,11 @@
 #!/usr/bin/env node
 
-// call command-line utility
-require("../src/ndev").run(process.argv.slice(2));
+/*!
+ *
+ *
+ */
+
+var cli = require("../src/cli");
+var arg = process.argv.slice(2);
+
+process.stdout.write(cli.run(arg) + "\n");
