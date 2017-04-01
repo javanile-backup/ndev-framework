@@ -61,6 +61,8 @@ module.exports = {
             return;
         }
 
+        // cant start
+
         //
         var node = args[1].trim();
         exec(__dirname + "/../exec/ndev-mount.sh " + path + " " + node,
