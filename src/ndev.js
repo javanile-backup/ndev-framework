@@ -15,7 +15,7 @@ module.exports = {
      * @param args
      */
     cmdTest: function (args, callback) {
-        this.cmdWithNdevModule("test", args, callback);
+        return this.cmdWithNdevModule("test", args, callback);
     },
 
     /**
@@ -95,7 +95,7 @@ module.exports = {
      * @param args
      */
     cmdFreeze: function (args, callback) {
-        this.cmdWithNdevModule("freeze", args, callback);
+        return this.cmdWithNdevModule("freeze", args, callback);
     },
 
     /**
@@ -132,7 +132,7 @@ module.exports = {
                 e(stderr.trim());
             }
         );
-    }
+    },
 
     /**
      *
@@ -143,7 +143,7 @@ module.exports = {
     cmdWithNdevModule: function (cmd, args, callback) {
         if (!args[0]) { return util.err("&ndev-required"); }
 
-        util.exec("freeze", [cwd, args[0]], function(resp) {
+        util.exec(cmd, [cwd, args[0]], function(resp) {
             callback(util.log(resp));
         });
     }
