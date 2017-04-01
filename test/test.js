@@ -1,10 +1,12 @@
 "use strict";
 
+var assert = require("chai").assert;
+
 describe("test", function () {
 
     it("should copy the title", function () {
 
-        console.log("A");
+        assert.equal(1, 0);
 
     });
 

@@ -54,7 +54,7 @@ module.exports = {
         var params = args.length > 0 ? args.join(" ") : "";
 
         exec(script + " " + params, function (error, stdout, stderr) {
-            if (error) { console.error(error); }
+            //if (error) { console.error(error); }
             callback(stderr ? stderr : stdout);
         });
     }

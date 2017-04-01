@@ -17,7 +17,7 @@ module.exports = {
     cmdTest: function (args, callback) {
         if (!args[0]) { return util.err("&ndev-required"); }
 
-        util.exec("test", args, function(resp) {
+        util.exec("test", [cwd, args[0]], function(resp) {
             callback(util.log(resp));
         });
     },
