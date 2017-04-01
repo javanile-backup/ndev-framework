@@ -14,7 +14,7 @@
     "ndev": "./bin/ndev"
   },
   "scripts": {
-    "travis": "istanbul cover node_modules/mocha/bin/_mocha -- -R test --recursive"
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --recursive"
   },
   "devDependencies": {
     "chai": "^3.5.0",

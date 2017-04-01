@@ -9,7 +9,7 @@ before_script:
   - npm install -g codeclimate-test-reporter
 
 script:
-  - npm run-script travis
+  - npm run-script coverage
 
 after_success:
   - codeclimate-test-reporter < .coverage/lcov.info
