@@ -4,6 +4,9 @@
  * MIT Licensed
  */
 
+var join = require("path").join;
+var exec = require("child_process").exec;
+
 module.exports = {
     /**
      * Print info message.
@@ -45,10 +48,15 @@ module.exports = {
     /**
      *
      */
-    exec: function (exec, args, callback) {
+    exec: function (cmd, args, callback) {
+        var ext = ".sh";
+        var script = join(__dirname, "../exec/ndev-" + cmd + ext);
+        var params = args.length > 0 ? args.join(" ") : "";
 
-
-
+        exec(script + " " + params, function (error, stdout, stderr) {
+            if (error) { console.error(error); }
+            callback(stderr ? stderr : stdout);
+        });
     }
 };
 

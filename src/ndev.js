@@ -5,7 +5,6 @@
  */
 
 var cwd  = process.cwd();
-var join = require("path").join;
 var base = require("path").basename;
 var exec = require("child_process").exec;
 var util = require("./util");
@@ -13,21 +12,14 @@ var util = require("./util");
 module.exports = {
     /**
      *
-     *
      * @param args
      */
-    cmdTest: function (args) {
+    cmdTest: function (args, callback) {
         if (!args[0]) { return util.err("&ndev-required"); }
 
-        util.exec("test", [], functio)
-        //
-        var repo = args[1];
-        var name = args[2] ? args[2] : basename(repo, ".git");
-        exec(__dirname + "/../exec/ndev-clone.sh " + path + " " + repo + " " + name,
-            function (error, stdout, stderr) {
-                console.log(stderr.trim());
-            }
-        );
+        util.exec("test", args, function(resp) {
+            callback(util.log(resp));
+        });
     },
 
     /**
