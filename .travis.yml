@@ -1,0 +1,14 @@
+language: node_js
+
+node_js:
+  - "iojs"
+  - "6"
+
+before_script:
+  - npm install -g codeclimate-test-reporter
+
+after_success:
+  - codeclimate-test-reporter
+
+notifications:
+  email: "bianco@javanile.org"
