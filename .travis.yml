@@ -1,12 +1,15 @@
 language: node_js
 
 node_js:
-  #- "iojs"
   - "6"
 
 before_script:
   - mkdir build/logs
+  - npm install -g istanbul
   - npm install -g codeclimate-test-reporter
+
+script:
+  - npm run-script travis
 
 after_success:
   - codeclimate-test-reporter < build/logs/lcov.info
