@@ -40,6 +40,15 @@ module.exports = {
         var str = "";
         for (var i = 0; i < len; i++) { str += " "; }
         return str;
+    },
+
+    /**
+     *
+     */
+    exec: function (exec, args, callback) {
+
+
+
     }
 };
 

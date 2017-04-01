@@ -6,6 +6,8 @@
  */
 
 var cli = require("../src/cli");
-var arg = process.argv.slice(2);
+var args = process.argv.slice(2);
 
-process.stdout.write(cli.run(arg) + "\n");
+function callback(out) { if (out) { process.stdout.write(out + "\n"); } }
+
+process.stdout.write(cli.run(args, callback) + "\n");
