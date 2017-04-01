@@ -1,20 +1,22 @@
-/**
- *
- *
+/*!
+ * ndev-framework
+ * Copyright(c) 2016-2017 Javanile.org
+ * MIT Licensed
  */
 
-var path = process.cwd();
+var cwd  = process.cwd();
+var join = require("path").join;
 var base = require("path").basename;
 var exec = require("child_process").exec;
+var util = require("./util");
 
 module.exports = {
-        /**
-         *
-         *
-         * @param args
-         */
-        function ndev_clone(args)
-    {
+    /**
+     *
+     *
+     * @param args
+     */
+    cmdClone: function (args) {
         if (!args[1]) {
             console.error("(ndev) Required repository url or package name.");
             return;
@@ -39,14 +41,14 @@ module.exports = {
                 console.log(stderr.trim());
             }
         );
-    }
+    },
 
     /**
      *
      *
      * @param args
      */
-    function ndev_mount(args) {
+    cmdMount: function (args) {
         if (!args[1]) {
             console.error("(ndev) Required node module to mount.");
             return;
@@ -59,31 +61,51 @@ module.exports = {
                 i(stderr.trim());
             }
         );
-    }
+    },
 
     /**
      *
      * @param args
      */
-    function ndev_install(args) {
+    cmdInstall: function (args) {
         if (!args[1]) {
             return e("Required package name.");
         }
 
         //
         console.log("(ndev) Please wait during install...");
-        exec(__dirname + "/../exec/ndev-install.sh " + path + " " + args.slice(1).join(" "),
+        exec(join(__dirname, + "/../exec/ndev-install.sh ")  + path + " " + args.slice(1).join(" "),
             function (error, stdout, stderr) {
                 console.log(!stderr ? stdout.trim() : stderr.trim());
             }
         );
-    }
+    },
 
     /**
      *
      * @param args
      */
-    function ndev_publish(args) {
+    cmdFreeze: function (args) {
+        if (!args[0]) { return e("Required package name."); }
+
+        //
+        console.log("(ndev) Please wait during install...");
+        util.exec("freeze", [cmd, args[0]], function () {
+
+        });
+
+        exec(join(__dirname, "../exec/ndev-freeze.sh") + util.params(cwd, args[0]),
+            function (error, stdout, stderr) {
+                console.log(!stderr ? stdout.trim() : stderr.trim());
+            }
+        );
+    },
+
+    /**
+     *
+     * @param args
+     */
+    cmdPublish: function (args) {
         if (!args[1]) {
             return e("Required ndev module to publish.");
         }
@@ -95,13 +117,13 @@ module.exports = {
                 console.log(stderr.trim(), stdout);
             }
         );
-    }
+    },
 
     /**
      *
      * @param args
      */
-    function ndev_commit(args) {
+    cmdCommit: function (args) {
         if (!args[1]) {
             return e("Required ndev module to commit.");
         }
