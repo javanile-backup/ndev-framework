@@ -97,19 +97,11 @@ module.exports = {
      * @param args
      */
     cmdFreeze: function (args, callback) {
-        if (!args[0]) { return util.err("Required package name."); }
+        if (!args[0]) { return util.err("&ndev-required"); }
 
-        util.exec("freeze", [cmd, args[0]], function () {
-
+        util.exec("freeze", [cwd, args[0]], function(resp) {
+            callback(util.log(resp));
         });
-
-        //
-
-        exec(join(__dirname, "../exec/ndev-freeze.sh") + util.params(cwd, args[0]),
-            function (error, stdout, stderr) {
-                console.log(!stderr ? stdout.trim() : stderr.trim());
-            }
-        );
     },
 
     /**
