@@ -4,7 +4,7 @@ node_js:
   - "6"
 
 before_script:
-  - mkdir build/logs
+  - mkdir -p build/logs
   - npm install -g istanbul
   - npm install -g codeclimate-test-reporter
 
@@ -12,7 +12,7 @@ script:
   - npm run-script travis
 
 after_success:
-  - codeclimate-test-reporter < build/logs/lcov.info
+  - codeclimate-test-reporter < .coverage/lcov.info
 
 notifications:
   email: "bianco@javanile.org"
