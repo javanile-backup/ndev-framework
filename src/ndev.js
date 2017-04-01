@@ -15,11 +15,7 @@ module.exports = {
      * @param args
      */
     cmdTest: function (args, callback) {
-        if (!args[0]) { return util.err("&ndev-required"); }
-
-        util.exec("test", [cwd, args[0]], function(resp) {
-            callback(util.log(resp));
-        });
+        this.cmdWithNdevModule("test", args, callback);
     },
 
     /**
@@ -97,11 +93,7 @@ module.exports = {
      * @param args
      */
     cmdFreeze: function (args, callback) {
-        if (!args[0]) { return util.err("&ndev-required"); }
-
-        util.exec("freeze", [cwd, args[0]], function(resp) {
-            callback(util.log(resp));
-        });
+        this.cmdWithNdevModule("freeze", args, callback);
     },
 
     /**
@@ -138,5 +130,19 @@ module.exports = {
                 e(stderr.trim());
             }
         );
+    }
+
+    /**
+     *
+     * @param cmd
+     * @param args
+     * @param callback
+     */
+    cmdWithNdevModule: function (cmd, args, callback) {
+        if (!args[0]) { return util.err("&ndev-required"); }
+
+        util.exec("freeze", [cwd, args[0]], function(resp) {
+            callback(util.log(resp));
+        });
     }
 }
