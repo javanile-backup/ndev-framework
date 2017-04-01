@@ -16,6 +16,25 @@ module.exports = {
      *
      * @param args
      */
+    cmdTest: function (args) {
+        if (!args[0]) { return util.err("&ndev-required"); }
+
+        util.exec("test", [], functio)
+        //
+        var repo = args[1];
+        var name = args[2] ? args[2] : basename(repo, ".git");
+        exec(__dirname + "/../exec/ndev-clone.sh " + path + " " + repo + " " + name,
+            function (error, stdout, stderr) {
+                console.log(stderr.trim());
+            }
+        );
+    },
+
+    /**
+     *
+     *
+     * @param args
+     */
     cmdClone: function (args) {
         if (!args[1]) {
             console.error("(ndev) Required repository url or package name.");
