@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 ##
+# $1 - working directory
+# $2 - ndev module folder
+
 cd $1/ndev_modules/$2
 ver=$(cat package.json | grep version | tr -d ',":')
 git add .
