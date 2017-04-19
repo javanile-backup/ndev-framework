@@ -16,7 +16,7 @@ module.exports = {
     log: function (msg, tokens) {
         for (token in tokens) {
             if (tokens.hasOwnProperty(token)) {
-                msg.replace("${"+token+"}", tokens[token]);
+                msg = msg.replace("${"+token+"}", tokens[token]);
             }
         }
         return this.indent("(ndev)  ", msg);
