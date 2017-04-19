@@ -2,4 +2,4 @@
 
 ##
 cd $1/ndev_modules/$2
-mocha --reporter min test/test.js
+mocha --reporter spec test/test.js | sed '/^\s*$/d'

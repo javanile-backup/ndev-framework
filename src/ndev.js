@@ -120,18 +120,8 @@ module.exports = {
      *
      * @param args
      */
-    cmdCommit: function (args) {
-        if (!args[1]) {
-            return e("Required ndev module to commit.");
-        }
-
-        i("Please wait during commit...");
-        var name = args[1].trim();
-        exec(__dirname + "/../exec/ndev-commit.sh " + path + " " + name,
-            function (error, stdout, stderr) {
-                e(stderr.trim());
-            }
-        );
+    cmdCommit: function (args, callback) {
+        return this.cmdWithNdevModule("commit", args, callback);
     },
 
     /**
@@ -143,8 +133,8 @@ module.exports = {
     cmdWithNdevModule: function (cmd, args, callback) {
         if (!args[0]) { return util.err("&ndev-required"); }
 
-        util.exec(cmd, [cwd, args[0]], function(resp) {
-            callback(util.log(resp));
+        util.exec(cmd, [cwd, args[0].trim()], function(resp) {
+            callback(util.log(resp.trim()));
         });
     }
 }

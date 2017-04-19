@@ -14,7 +14,7 @@ module.exports = {
      * @param msg
      */
     log: function (msg) {
-        return this.indent("(ndev) ", msg);
+        return this.indent("(ndev)  ", msg);
     },
 
     /**
