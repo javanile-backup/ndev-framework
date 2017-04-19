@@ -13,7 +13,12 @@ module.exports = {
      *
      * @param msg
      */
-    log: function (msg) {
+    log: function (msg, tokens) {
+        for (token in tokens) {
+            if (tokens.hasOwnProperty(token)) {
+                msg.replace("${"+token+"}", tokens[token]);
+            }
+        }
         return this.indent("(ndev)  ", msg);
     },
 
