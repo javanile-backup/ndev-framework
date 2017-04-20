@@ -9,7 +9,8 @@ chai.use(require('chai-fs'));
 describe("first test", function () {
     it("should copy the title", function (done) {
         ndev.cwd = __dirname + "/tmp/clone/";
-        ndev.cmdClone(["https://github.com/javanile/declinejs"], function(out) {
+        ndev.cmdClone(["https://github.com/javanile/declinejs"], function(log) {
+            console.log(log);
             chai.assert.isDirectory(ndev.cwd + "/ndev_modules/declinejs/");
             chai.assert.isFile(ndev.cwd + "/ndev_modules/declinejs/LICENSE");
             done();
