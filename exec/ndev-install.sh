@@ -15,7 +15,5 @@ npm install $2
 ##
 cd $1/ndev_modules
 for d in * ; do
-  if [ -d ".$d" ]; then
-    mv ../node_modules/.$d ../node_modules/$d
-  fi
+  mv ../node_modules/.$d ../node_modules/$d
 done
