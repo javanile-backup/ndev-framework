@@ -14,25 +14,22 @@ module.exports = {
      * @param args
      */
     run: function(args, callback) {
-        if (!args || args.length === 0) { util.err("&cli-required"); }
+        if (!args || args.length === 0) { util.err("&cmd-required"); }
 
-        var cmd = args.shift();
+        var cmd = args.shift().trim();
+        var fnc = "cmd" + cmd.charAt(0).toUpperCase() + cmd.slice(1).toLowerCase();
+
+        if (typeof ndev[fnc] === "function") {
+            return ndev[fnc](args, callback);
+        }
 
         switch (cmd) {
-            case "test": return ndev.cmdTest(args, callback); break;
-            case "clone": return ndev.cmdClone(args, callback); break;
-            case "mount": return ndev.cmdMount(args, callback); break;
-            case "commit": return ndev.cmdCommit(args, callback); break;
-            case "require": return ndev.cmdRequire(args, callback); break;
-            case "freeze": return ndev.cmdFreeze(args, callback); break;
-            case "unfreeze": return ndev.cmdUnfreeze(args, callback); break;
-            case "install": return ndev.cmdInstall(args, callback); break;
-            case "publish": return ndev.cmdPublish(args, callback); break;
-
-            case "--version": return this.getVersion(); break;
-            case "--help": return this.getHelp(args); break;
-
-            default: return util.err("Undefined command: " + cmd);
+            case "--help":
+                return ndev.getHelp(args); break;
+            case "--version":
+                return ndev.getVersion(); break;
+            default:
+                return util.err("&cmd-undefined", { cmd: cmd });
         }
     }
 };
