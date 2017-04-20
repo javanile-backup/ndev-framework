@@ -1,14 +1,14 @@
 "use strict";
 
+var ndev = require("../src/ndev");
 var util = require("../src/util");
 var assert = require("chai").assert;
 
-describe("test", function () {
-
+describe("first test", function () {
     it("should copy the title", function () {
 
-        assert.equal(util.pad(2), "  ");
+        ndev.cwd = __basename + "/"
+        ndev.cmdClone();
 
     });
-
 });

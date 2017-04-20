@@ -4,7 +4,6 @@
  * MIT Licensed
  */
 
-var cwd  = process.cwd();
 var base = require("path").basename;
 var exec = require("child_process").exec;
 var util = require("./util");
@@ -12,11 +11,17 @@ var util = require("./util");
 module.exports = {
     /**
      *
+     *
+     */
+    cwd: process.cwd(),
+
+    /**
+     *
      * @param args
      */
     cmdTest: function (args, callback) {
         return this.cmdWithNdevModule(
-            "test", "testing ${ndev_module}", args, callback
+            "test", "testing: ${ndev_module}", args, callback
         );
     },
 
@@ -45,11 +50,12 @@ module.exports = {
         //
         var repo = args[1];
         var name = args[2] ? args[2] : basename(repo, ".git");
-        exec(__dirname + "/../exec/ndev-clone.sh " + path + " " + repo + " " + name,
-            function (error, stdout, stderr) {
-                console.log(stderr.trim());
-            }
-        );
+
+        util.exec("clone", [this.cwd, repo, name], function(resp) {
+            callback(util.log(msg + "\n" + resp.trim(), {
+                ndev_module: ndev_module
+            }));
+        });
     },
 
     /**
@@ -97,7 +103,9 @@ module.exports = {
      * @param args
      */
     cmdFreeze: function (args, callback) {
-        return this.cmdWithNdevModule("freeze", args, callback);
+        return this.cmdWithNdevModule(
+            "freeze", "freeze", args, callback
+        );
     },
 
     /**
@@ -123,7 +131,9 @@ module.exports = {
      * @param args
      */
     cmdCommit: function (args, callback) {
-        return this.cmdWithNdevModule("commit", "commit module: ${ndev_module}", args, callback);
+        return this.cmdWithNdevModule(
+            "commit", "commit module: ${ndev_module}", args, callback
+        );
     },
 
     /**
@@ -137,7 +147,7 @@ module.exports = {
 
         var ndev_module = args[0].trim();
 
-        util.exec(cmd, [cwd, ndev_module], function(resp) {
+        util.exec(cmd, [this.cwd, ndev_module], function(resp) {
             callback(util.log(msg + "\n" + resp.trim(), {
                 ndev_module: ndev_module
             }));
