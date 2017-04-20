@@ -14,12 +14,7 @@ module.exports = {
      * @param msg
      */
     log: function (msg, tokens) {
-        for (token in tokens) {
-            if (tokens.hasOwnProperty(token)) {
-                msg = msg.replace("${"+token+"}", tokens[token]);
-            }
-        }
-        return this.indent("(ndev)  ", msg);
+        return this.indent("(ndev)  ", this.applyTokens(msg, tokens));
     },
 
     /**
@@ -27,11 +22,25 @@ module.exports = {
      *
      * @param msg
      */
-    err: function (msg, args) {
+    err: function (msg, tokens) {
         switch (msg) {
-            case "@command-required": msg = "Command required, type 'ndev --help'.";
+            case "&cmd-undefined": msg = "Undefined command '${cmd}'"; break;
+            case "&cmd-required":  msg = "Command required, type 'ndev --help'."; break;
         }
-        return this.indent("(ndev)  ", msg);
+        return this.indent("(ndev)  ", this.applyTokens(msg, tokens));
+    },
+
+    /**
+     *
+     * @param token
+     */
+    applyTokens: function (msg, tokens) {
+        for (token in tokens) {
+            if (tokens.hasOwnProperty(token)) {
+                msg = msg.replace("${"+token+"}", tokens[token]);
+            }
+        }
+        return msg;
     },
 
     /**

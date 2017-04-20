@@ -19,6 +19,19 @@ module.exports = {
      *
      * @param args
      */
+    cmdRun: function (args, callback) {
+
+        var script = args[1].trim();
+
+        return this.cmdWithNdevModule(
+            "run", "${ndev_module} -> npm run "+ script, args, callback
+        );
+    },
+
+    /**
+     *
+     * @param args
+     */
     cmdTest: function (args, callback) {
         return this.cmdWithNdevModule(
             "test", "testing: ${ndev_module}", args, callback
