@@ -23,6 +23,7 @@ module.exports = {
             case "clone": return ndev.cmdClone(args, callback); break;
             case "mount": return ndev.cmdMount(args, callback); break;
             case "commit": return ndev.cmdCommit(args, callback); break;
+            case "require": return ndev.cmdRequire(args, callback); break;
             case "freeze": return ndev.cmdFreeze(args, callback); break;
             case "install": return ndev.cmdInstall(args, callback); break;
             case "publish": return ndev.cmdPublish(args, callback); break;

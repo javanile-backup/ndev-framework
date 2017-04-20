@@ -71,20 +71,9 @@ module.exports = {
      *
      * @param args
      */
-    cmdMount: function (args) {
-        if (!args[1]) {
-            console.error("(ndev) Required node module to mount.");
-            return;
-        }
-
-        // cant start
-
-        //
-        var node = args[1].trim();
-        exec(__dirname + "/../exec/ndev-mount.sh " + path + " " + node,
-            function (error, stdout, stderr) {
-                i(stderr.trim());
-            }
+    cmdMount: function (args, callback) {
+        return this.cmdWithNdevModule(
+            "mount", "mount module: ${ndev_module}", args, callback
         );
     },
 
@@ -146,6 +135,16 @@ module.exports = {
 
     /**
      *
+     * @param args
+     */
+    cmdRequire: function (args, callback) {
+        return this.cmdWithNdevModule(
+            "require", "require module: ${ndev_module}", args, callback
+        );
+    },
+
+    /**
+     *
      * @param cmd
      * @param args
      * @param callback
@@ -153,9 +152,12 @@ module.exports = {
     cmdWithNdevModule: function (cmd, msg, args, callback) {
         if (!args[0]) { return util.err("&ndev-required"); }
 
-        var ndev_module = args[0].trim();
+        var ndev_module = args.shift().trim();
 
-        util.exec(cmd, [this.cwd, ndev_module], function(resp) {
+        args.unshift(ndev_module);
+        args.unshift(this.cwd);
+
+        util.exec(cmd, args, function(resp) {
             callback(util.log(msg + "\n" + resp.trim(), {
                 ndev_module: ndev_module
             }));
