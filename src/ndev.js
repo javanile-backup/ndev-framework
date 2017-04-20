@@ -109,6 +109,16 @@ module.exports = {
      *
      * @param args
      */
+    cmdUnfreeze: function (args, callback) {
+        return this.cmdWithNdevModule(
+            "unfreeze", "freeze", args, callback
+        );
+    },
+
+    /**
+     *
+     * @param args
+     */
     cmdPublish: function (args) {
         if (!args[1]) {
             return e("Required ndev module to publish.");
