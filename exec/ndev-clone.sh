@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
 ##
+# $1 - Working directory
+# $2 - Repository clone url
+# $3 - Folder name for the module
+
 cd $1
 mkdir ndev_modules > /dev/null 2>&1
 mkdir node_modules > /dev/null 2>&1
@@ -10,6 +14,3 @@ cd node_modules
 git clone $2 $3
 cd ..
 ln -s ../node_modules/$3 ndev_modules/$3
-
-
-

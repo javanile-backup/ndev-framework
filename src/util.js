@@ -54,7 +54,6 @@ module.exports = {
      *
      */
     exec: function (cmd, args, callback) {
-        console.log("EXEC", cmd);
         var ext = ".sh";
         var script = join(__dirname, "../exec/ndev-" + cmd + ext);
         var params = args.length > 0 ? args.join(" ") : "";
