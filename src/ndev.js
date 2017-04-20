@@ -31,6 +31,8 @@ module.exports = {
      * @param args
      */
     cmdClone: function (args, callback) {
+        var self = this;
+
         if (!args[0]) {
             console.error("(ndev) Required repository url or package name.");
             return;
@@ -56,14 +58,10 @@ module.exports = {
         }
         */
 
-        console.log(args);
-
         var repo = args[0].trim();
-        var name = args[1] ? args[1] : base(repo, ".git");
+        var name = args[1] || base(repo, ".git");
 
-        console.log(this.cwd);
-
-        util.exec("clone-repo", [this.cwd, repo, name], function(resp) {
+        util.exec("clone", [self.cwd, repo, name], function (resp) {
             callback(util.log(resp.trim()));
         });
     },
