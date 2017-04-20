@@ -30,31 +30,41 @@ module.exports = {
      *
      * @param args
      */
-    cmdClone: function (args) {
-        if (!args[1]) {
+    cmdClone: function (args, callback) {
+        if (!args[0]) {
             console.error("(ndev) Required repository url or package name.");
             return;
         }
 
         //
+        /*
         if (!args[1].match(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/)) {
             var pack = args[1];
             var name = args[2] ? args[2] : base(repo, ".git");
+
+            util.exec("clone", [this.cwd, repo, name], function(resp) {
+                callback(util.log(msg + "\n" + resp.trim(), {
+                    ndev_module: ndev_module
+                }));
+            });
+
             exec(__dirname + "/../exec/ndev-clone-pack.sh " + path + " " + repo + " " + name,
                 function (error, stdout, stderr) {
                     console.log("(ndev)", stderr.trim());
                 }
             );
         }
+        */
 
-        //
-        var repo = args[1];
-        var name = args[2] ? args[2] : basename(repo, ".git");
+        console.log(args);
 
-        util.exec("clone", [this.cwd, repo, name], function(resp) {
-            callback(util.log(msg + "\n" + resp.trim(), {
-                ndev_module: ndev_module
-            }));
+        var repo = args[0].trim();
+        var name = args[1] ? args[1] : base(repo, ".git");
+
+        console.log(this.cwd);
+
+        util.exec("clone-repo", [this.cwd, repo, name], function(resp) {
+            callback(util.log(resp.trim()));
         });
     },
 
