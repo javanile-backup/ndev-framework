@@ -4,7 +4,8 @@
  * MIT Licensed
  */
 
-var fs = require("fs");
+var fs   = require("fs");
+var path = require("path");
 var ndev = require("./ndev");
 var util = require("./util");
 
@@ -39,11 +40,11 @@ module.exports = {
      * @param args
      */
     getHelp: function (args) {
-        var help = "help.txt";
-        if (args[0] && fs.existsSync(__dirname + "/../help/" + args[0] + ".txt")) {
-            help = args[0] + ".txt";
-        }
-        return fs.readFileSync(__dirname + "/../help/" + help);
+        var help = path.join(__dirname, "../help/help.txt");
+        if (!args[0]) { return fs.readFileSync(help); }
+        help = path.join(__dirname, "../help/" + args[0] + ".txt");
+        if (fs.existsSync(help)) { return fs.readFileSync(help); }
+        return util.err("&cmd-undefined", { cmd: args[0] });
     },
 
     /**
@@ -52,7 +53,7 @@ module.exports = {
      * @param args
      */
     getVersion: function () {
-        var info = JSON.parse(fs.readFileSync(__dirname + "/../package.json"), "utf8");
+        var info = JSON.parse(fs.readFileSync(path.join(__dirname, "../package.json")), "utf8");
         return info.name + "@" + info.version;
     }
 };
