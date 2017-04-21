@@ -4,6 +4,7 @@
  * MIT Licensed
  */
 
+var fs = require("fs");
 var ndev = require("./ndev");
 var util = require("./util");
 
@@ -25,11 +26,33 @@ module.exports = {
 
         switch (cmd) {
             case "--help":
-                return ndev.getHelp(args); break;
+                return this.getHelp(args); break;
             case "--version":
-                return ndev.getVersion(); break;
+                return this.getVersion(); break;
             default:
                 return util.err("&cmd-undefined", { cmd: cmd });
         }
+    },
+
+    /**
+     *
+     * @param args
+     */
+    getHelp: function (args) {
+        var help = "help.txt";
+        if (args[0] && fs.existsSync(__dirname + "/../help/" + args[0] + ".txt")) {
+            help = args[0] + ".txt";
+        }
+        return fs.readFileSync(__dirname + "/../help/" + help);
+    },
+
+    /**
+     * Get software version.
+     *
+     * @param args
+     */
+    getVersion: function () {
+        var package = JSON.parse(fs.readFileSync(__dirname + "/../package.json"), "utf8");
+        return package.name + "@" + package.version;
     }
 };

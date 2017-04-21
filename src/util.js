@@ -69,7 +69,7 @@ module.exports = {
 
         exec(script + " " + params, function (error, stdout, stderr) {
             //if (error) { console.error(error); }
-            callback(stderr ? stderr : stdout);
+            callback((stdout + "\n" + stderr).trim());
         });
     }
 };

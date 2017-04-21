@@ -1,0 +1,2 @@
+  Usage: ndev clone <repository>
+Comment: Clone your module on root project
