@@ -28,6 +28,7 @@ build/Release
 
 # Dependency directories
 node_modules
+ndev_modules
 jspm_packages
 
 # Optional npm cache directory
@@ -39,5 +40,20 @@ jspm_packages
 # Folter for testing
 test/tmp/clone/*
 !test/tmp/clone/.gitkeep
-
+test/tmp/commit/*
+!test/tmp/commit/.gitkeep
+test/tmp/publish/*
+!test/tmp/publish/.gitkeep
+test/tmp/install/*
+!test/tmp/install/.gitkeep
+test/tmp/require/*
+!test/tmp/require/.gitkeep
+test/tmp/mount/*
+!test/tmp/freeze/.gitkeep
+test/tmp/unfreeze/*
+!test/tmp/unfreeze/.gitkeep
+test/tmp/test/*
+!test/tmp/test/.gitkeep
+test/tmp/run/*
+!test/tmp/run/.gitkeep
 # Others

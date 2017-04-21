@@ -3,9 +3,10 @@
 Commands: clone <repository>
           commit <module>
           publish <module>
-          run <module>
           install [args...]
           require <module> [args...]
           mount <module>
           freeze <module>
           unfreeze <module>
+          test <module>
+          run <module>
