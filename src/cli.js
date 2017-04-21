@@ -27,9 +27,9 @@ module.exports = {
 
         switch (cmd) {
             case "--help":
-                return this.getHelp(args); break;
+                return this.getHelp(args);
             case "--version":
-                return this.getVersion(); break;
+                return this.getVersion();
             default:
                 return util.err("&cmd-undefined", { cmd: cmd });
         }

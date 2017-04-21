@@ -15,13 +15,11 @@ describe("Testing command-line interface", function () {
     });
 
     it("Unknown command", function () {
-        var message = cli.run(['unknown']);
-        chai.assert.match(message, /ndev --help/, "Not an help message");
+        chai.assert.match(cli.run(['unknown']), /ndev --help/, "Not an help message");
     });
 
     it("Call help", function () {
-        var help = cli.run(["--help"]);
-        chai.assert.match(help, /Usage:/, "Help not match");
+        chai.assert.match(cli.run(["--help"]), /Usage:/, "Help not match");
     });
 
     it("Call command help", function () {
@@ -29,9 +27,19 @@ describe("Testing command-line interface", function () {
         chai.assert.match(help, /Usage: ndev clone/, "Command help not match");
     });
 
+    it("Call undefined command help", function () {
+        var message = cli.run(["--help", "unknown"]);
+        chai.assert.match(message, /Undefined command/, "Command help not match");
+    });
+
     it("Call version", function () {
         var version = cli.run(["--version"]);
         chai.assert.match(version, /[0-9]+\.[0-9]+\.[0-9]+/, "Version not match");
+    });
+
+    it("Call existing command", function () {
+        var version = cli.run(["test"]);
+        chai.assert.match(version, /\(ndev\)/, "Problem to call command");
     });
 
 });

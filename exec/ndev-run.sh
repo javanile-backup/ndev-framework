@@ -2,4 +2,4 @@
 
 ##
 cd $1/ndev_modules/$2
-npm run ${@:3}
+npm run -s ${@:3}

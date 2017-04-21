@@ -23,7 +23,7 @@ module.exports = {
 
         var script = args[1].trim();
 
-        return this.cmdWithNdevModule(
+        return this.cmdWithModule(
             "run", "${ndev_module} -> npm run "+ script, args, callback
         );
     },
@@ -33,7 +33,7 @@ module.exports = {
      * @param args
      */
     cmdTest: function (args, callback) {
-        return this.cmdWithNdevModule(
+        return this.cmdWithModule(
             "test", "testing: ${ndev_module}", args, callback
         );
     },
@@ -85,7 +85,7 @@ module.exports = {
      * @param args
      */
     cmdMount: function (args, callback) {
-        return this.cmdWithNdevModule(
+        return this.cmdWithModule(
             "mount", "mount module: ${ndev_module}", args, callback
         );
     },
@@ -113,9 +113,7 @@ module.exports = {
      * @param args
      */
     cmdFreeze: function (args, callback) {
-        return this.cmdWithNdevModule(
-            "freeze", "freeze", args, callback
-        );
+        return this.cmdWithModule("freeze", "freeze", args, callback);
     },
 
     /**
@@ -123,9 +121,7 @@ module.exports = {
      * @param args
      */
     cmdUnfreeze: function (args, callback) {
-        return this.cmdWithNdevModule(
-            "unfreeze", "freeze", args, callback
-        );
+        return this.cmdWithModule("unfreeze", "freeze", args, callback);
     },
 
     /**
@@ -133,9 +129,7 @@ module.exports = {
      * @param args
      */
     cmdPublish: function (args) {
-        return this.cmdWithNdevModule(
-            "publish", "publish module: ${ndev_module}", args, callback
-        );
+        return this.cmdWithModule("publish", "publish module: ${ndev_module}", args, callback);
     },
 
     /**
@@ -143,9 +137,7 @@ module.exports = {
      * @param args
      */
     cmdCommit: function (args, callback) {
-        return this.cmdWithNdevModule(
-            "commit", "commit module: ${ndev_module}", args, callback
-        );
+        return this.cmdWithModule("commit", "commit module: ${ndev_module}", args, callback);
     },
 
     /**
@@ -153,9 +145,7 @@ module.exports = {
      * @param args
      */
     cmdRequire: function (args, callback) {
-        return this.cmdWithNdevModule(
-            "require", "require module: ${ndev_module}", args, callback
-        );
+        return this.cmdWithModule("require", "require module: ${ndev_module}", args, callback);
     },
 
     /**
@@ -164,7 +154,7 @@ module.exports = {
      * @param args
      * @param callback
      */
-    cmdWithNdevModule: function (cmd, msg, args, callback) {
+    cmdWithModule: function (cmd, msg, args, callback) {
         if (!args[0]) { return util.err("&ndev-required"); }
 
         var ndev_module = args.shift().trim();

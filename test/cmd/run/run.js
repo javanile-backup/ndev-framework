@@ -2,12 +2,19 @@
 
 var ndev = require("../../../src/ndev");
 var util = require("../../../src/util");
-var assert = require("chai").assert;
+var path = require("path");
+var chai = require("chai");
 
-describe("Testing 'clone' commnad", function () {
-    describe("Clone by repository url", function () {
-        it("should copy the title", function () {
-            assert.equal(util.pad(2), "  ");
+describe("Testing 'run' commnad", function () {
+    describe("Run script on mounted modules", function () {
+        it("Simple package.json script", function (done) {
+            ndev.cwd = path.join(__dirname, "/../../tmp/run/");
+            ndev.cmdClone(["https://github.com/javanile/nodejs-skeleton"], function(log) {
+                ndev.cmdRun(["nodejs-skeleton", "script"], function(log) {
+                    chai.assert.match(log, /cannolo con la ricotta/);
+                    done();
+                });
+            });
         });
     });
 });
