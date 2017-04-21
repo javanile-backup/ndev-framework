@@ -52,7 +52,7 @@ module.exports = {
      * @param args
      */
     getVersion: function () {
-        var package = JSON.parse(fs.readFileSync(__dirname + "/../package.json"), "utf8");
-        return package.name + "@" + package.version;
+        var info = JSON.parse(fs.readFileSync(__dirname + "/../package.json"), "utf8");
+        return info.name + "@" + info.version;
     }
 };

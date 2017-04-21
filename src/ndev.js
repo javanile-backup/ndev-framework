@@ -133,16 +133,8 @@ module.exports = {
      * @param args
      */
     cmdPublish: function (args) {
-        if (!args[1]) {
-            return e("Required ndev module to publish.");
-        }
-
-        i("Please wait during publish...");
-        var name = args[1];
-        exec(__dirname + "/../exec/ndev-publish.sh " + path + " " + name,
-            function (error, stdout, stderr) {
-                console.log(stderr.trim(), stdout);
-            }
+        return this.cmdWithNdevModule(
+            "publish", "publish module: ${ndev_module}", args, callback
         );
     },
 
