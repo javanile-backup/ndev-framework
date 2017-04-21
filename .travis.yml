@@ -20,4 +20,4 @@ after_success:
   - codeclimate-test-reporter < build/coverage/lcov.info
 
 notifications:
-  email: "bianco@javanile.org"
+  email: bianco@javanile.org
