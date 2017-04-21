@@ -8,7 +8,7 @@ var chai = require("chai");
 chai.use(require('chai-fs'));
 
 describe("test/test.js: ", function () {
-    it("Simple package.json script", function (done) {
+    it("Simple package.json script", function () {
         /*
         ndev.cwd = path.join(__dirname, "tmp/run/");
         ndev.cmdClone(["https://github.com/javanile/nodejs-skeleton"], function(log) {
