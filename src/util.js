@@ -24,7 +24,7 @@ module.exports = {
      */
     err: function (msg, tokens) {
         switch (msg) {
-            case "&cmd-undefined": msg = "Undefined command '${cmd}'"; break;
+            case "&cmd-undefined": msg = "Undefined command '${cmd}', type 'ndev --help'."; break;
             case "&cmd-required":  msg = "Command required, type 'ndev --help'."; break;
         }
         return this.indent("(ndev)  ", this.applyTokens(msg, tokens));

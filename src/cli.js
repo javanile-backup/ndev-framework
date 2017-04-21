@@ -15,7 +15,7 @@ module.exports = {
      * @param args
      */
     run: function(args, callback) {
-        if (!args || args.length === 0) { util.err("&cmd-required"); }
+        if (!args || args.length === 0) { return util.err("&cmd-required"); }
 
         var cmd = args.shift().trim();
         var fnc = "cmd" + cmd.charAt(0).toUpperCase() + cmd.slice(1).toLowerCase();
