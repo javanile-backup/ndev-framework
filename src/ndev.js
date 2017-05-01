@@ -20,11 +20,10 @@ module.exports = {
      * @param args
      */
     cmdRun: function (args, callback) {
-
         var script = args[1].trim();
 
         return this.cmdWithModule(
-            "run", "${ndev_module} -> npm run "+ script, args, callback
+            "run", "${ndev_module} -> npm run " + script, args, callback
         );
     },
 
@@ -94,18 +93,8 @@ module.exports = {
      *
      * @param args
      */
-    cmdInstall: function (args) {
-        if (!args[1]) {
-            return e("Required package name.");
-        }
-
-        //
-        console.log("(ndev) Please wait during install...");
-        exec(join(__dirname, + "/../exec/ndev-install.sh ")  + path + " " + args.slice(1).join(" "),
-            function (error, stdout, stderr) {
-                console.log(!stderr ? stdout.trim() : stderr.trim());
-            }
-        );
+    cmdInstall: function (args, callback) {
+        return this.cmdWithArgs("install", "Wait during install...", args, callback);
     },
 
     /**
@@ -128,7 +117,7 @@ module.exports = {
      *
      * @param args
      */
-    cmdPublish: function (args) {
+    cmdPublish: function (args, callback) {
         return this.cmdWithModule("publish", "publish module: ${ndev_module}", args, callback);
     },
 
@@ -163,9 +152,25 @@ module.exports = {
         args.unshift(this.cwd);
 
         util.exec(cmd, args, function(resp) {
-            callback(util.log(msg + "\n" + resp.trim(), {
+            callback(util.log(util.trim(msg + "\n" + resp), {
                 ndev_module: ndev_module
             }));
         });
+    },
+
+    /**
+     *
+     * @param cmd
+     * @param args
+     * @param callback
+     */
+    cmdWithArgs: function (cmd, msg, args, callback) {
+        args.unshift(this.cwd);
+
+        util.exec(cmd, args, function(resp) {
+            callback(util.log(resp));
+        });
+
+        return util.log(msg);
     }
 }

@@ -62,6 +62,13 @@ module.exports = {
     /**
      *
      */
+    trim: function (str) {
+        return str.trim();
+    },
+
+    /**
+     *
+     */
     exec: function (cmd, args, callback) {
         var ext = ".sh";
         var script = join(__dirname, "../exec/ndev-" + cmd + ext);
