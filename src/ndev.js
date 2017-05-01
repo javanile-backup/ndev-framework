@@ -5,7 +5,6 @@
  */
 
 var base = require("path").basename;
-var exec = require("child_process").exec;
 var util = require("./util");
 
 module.exports = {
