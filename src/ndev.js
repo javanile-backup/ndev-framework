@@ -4,7 +4,6 @@
  * MIT Licensed
  */
 
-var fs = require("./util");
 var base = require("path").basename;
 var join = require("path").join;
 var util = require("./util");
