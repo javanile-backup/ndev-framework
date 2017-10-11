@@ -6,7 +6,7 @@
 
 var fs = require("fs");
 var join = require("path").join;
-var exec = require("child_process").exec;
+var exec = require("child_process").execSync;
 
 module.exports = {
 
