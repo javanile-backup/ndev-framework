@@ -4,13 +4,16 @@
  * MIT Licensed
  */
 
+var fs = require("./util");
 var base = require("path").basename;
+var join = require("path").join;
 var util = require("./util");
 
 module.exports = {
+
     /**
-     *
-     *
+     * Contain current working direcotry.
+     * @var string
      */
     cwd: process.cwd(),
 
@@ -117,6 +120,12 @@ module.exports = {
      * @param args
      */
     cmdPublish: function (args, callback) {
+        if (!args[0]) { return util.err("&ndev-required"); }
+        var info = this.loadPackageJson(args[0]);
+        var verOld = info.version.split(".");
+        verOld[verOld.length - 1] = parseInt(verOld[verOld.length - 1]) + 1;
+        info.version = verOld.join(".");
+        this.savePackageJson(args[0], info);
         return this.cmdWithModule("publish", "publish module: ${ndev_module}", args, callback);
     },
 
@@ -171,5 +180,27 @@ module.exports = {
         });
 
         return util.log(msg);
+    },
+
+    /**
+     *
+     * @param cmd
+     * @param args
+     * @param callback
+     */
+    loadPackageJson: function (module) {
+        var file = join(this.cwd, 'node_modules', module, 'package.json');
+        return util.loadJson(file);
+    },
+
+    /**
+     *
+     * @param cmd
+     * @param args
+     * @param callback
+     */
+    savePackageJson: function (module, info) {
+        var file = join(this.cwd, 'node_modules', module, 'package.json');
+        util.saveJson(file, info);
     }
 }

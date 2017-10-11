@@ -4,10 +4,12 @@
  * MIT Licensed
  */
 
+var fs = require("fs");
 var join = require("path").join;
 var exec = require("child_process").exec;
 
 module.exports = {
+
     /**
      * Print info message.
      *
@@ -78,6 +80,23 @@ module.exports = {
             //if (error) { console.error(error); }
             callback((stdout + "\n" + stderr).trim());
         });
+    },
+
+    /**
+     *
+     * @param file
+     */
+    loadJson: function (file) {
+        return require(file);
+    },
+
+    /**
+     *
+     * @param file
+     * @param info
+     */
+    saveJson: function (file, info) {
+        fs.writeFileSync(file, JSON.stringify(info, null, 4));
     }
 };
 
