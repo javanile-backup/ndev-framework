@@ -169,7 +169,7 @@ module.exports = {
         util.info(args[0], "Commit and push changes (git login)");
 
         var module = args.shift().trim();
-        var message = args.join(" ").trim() || "Update from " + this.getVersion(module);
+        var message = util.ucfirst(args.join(" ").trim()) || "Update from " + this.getVersion(module);
 
         return this.exec("commit", [module, message], callback);
     },

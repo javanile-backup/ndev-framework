@@ -88,6 +88,14 @@ module.exports = {
 
     /**
      *
+     * @param str
+     */
+    ucfirst: function (str) {
+        return str ? str.charAt(0).toUpperCase() + str.substr(1) : "";
+    },
+
+    /**
+     *
      */
     isRepo: function (repo) {
         return repo.match(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/);
