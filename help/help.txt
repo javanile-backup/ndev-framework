@@ -1,12 +1,12 @@
-    Usage: ndev <command> [args...]
- Commands: clone <repository|package>    Clone repository and mount into ndev_modules
-           commit <module> [message]     Commit and push changes of ndev module
-           publish <module>              Publish module on npmjs.org
-           install [package]             Install package on root project directory
-           require <module> <package>    Install and save dependencies on ndev module
-           mount <module>                Mount root project package into ndev_modules
-           freeze <module>
-           unfreeze <module>
-           test <module>
-           run <module> <script>
-  Manuals: ndev --help [commnad]
+   Usage: ndev <command> [args...]
+ Command: clone <repository|package>   Clone and mount package into ndev_modules
+          commit <module> [message]    Commit and push changes of ndev module
+          publish <module>             Publish module on npmjs.org
+          install [package]            Install package on root project directory
+          require <module> <package>   Install and save dependencies on module
+          mount <module>               Mount root package into ndev_modules
+          freeze <module>              Hide ndev module at root project
+          unfreeze <module>            Restore ndev module at root project
+          test <module>                Run test inside ndev module
+          run <module> <script>        Run script inside ndev module
+ Manuals: ndev --help [commnad]
