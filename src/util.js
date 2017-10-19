@@ -87,6 +87,7 @@ module.exports = {
     },
 
     /**
+     * Upper case first char.
      *
      * @param str
      */
@@ -95,7 +96,7 @@ module.exports = {
     },
 
     /**
-     *
+     * Check is valid repository url.
      */
     isRepo: function (repo) {
         return repo.match(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/);
