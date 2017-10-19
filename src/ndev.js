@@ -25,9 +25,7 @@ module.exports = {
         if (!args[0]) { return util.err("&require-module", {cmd: "run"}); }
         if (!args[1]) { return util.err("&require-script", {cmd: "run"}); }
 
-        var script = args[1].trim();
-
-        util.info(args[0], "npm run ${script}", {script: script});
+        util.info(args[0], "npm run ${script}", {script: args[1]});
 
         return this.exec("run", args, callback);
     },
@@ -130,12 +128,12 @@ module.exports = {
      */
     cmdPublish: function (args, callback) {
         if (!args[0]) { return util.err("&ndev-required"); }
-        var info = this.loadPackageJson(args[0]);
-        var verOld = info.version.split(".");
-        verOld[verOld.length - 1] = parseInt(verOld[verOld.length - 1]) + 1;
-        info.version = verOld.join(".");
-        this.savePackageJson(args[0], info);
-        return this.cmdWithModule("publish", "publish module: ${ndev_module}", args, callback);
+
+        var ver = this.versionUpdate(args[0]);
+
+        util.info(args[0], "Publish new version '${ver}'", {ver: ver});
+
+        return this.exec("publish", args, callback);
     },
 
     /**
@@ -151,7 +149,9 @@ module.exports = {
      * @param args
      */
     cmdRequire: function (args, callback) {
-        return this.cmdWithModule("require", "require module: ${ndev_module}", args, callback);
+
+
+        return this.exec("require", args, callback);
     },
 
     /**
@@ -239,5 +239,17 @@ module.exports = {
     savePackageJson: function (module, info) {
         var file = join(this.cwd, 'node_modules', module, 'package.json');
         util.saveJson(file, info);
+    },
+
+    /**
+     * Update version number by smallest unit.
+     */
+    versionUpdate: function (module) {
+        var info = this.loadPackageJson(module);
+        var verOld = info.version.split(".");
+        verOld[verOld.length - 1] = parseInt(verOld[verOld.length - 1]) + 1;
+        info.version = verOld.join(".");
+        this.savePackageJson(module, info);
+        return info.version;
     }
 }
