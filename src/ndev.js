@@ -202,7 +202,7 @@ module.exports = {
      */
     cmdWithArgs: function (cmd, msg, args, callback) {
         args.unshift(this.cwd);
-
+        // this is test
         util.exec(cmd, args, function(resp) {
             callback(util.log(resp));
         });
