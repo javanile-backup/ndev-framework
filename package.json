@@ -8,7 +8,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/Javanile/ndev-framework.git"
+        "url": "https://github.com/javanile/ndev-framework.git"
     },
     "bin": {
         "ndev": "./bin/ndev"
