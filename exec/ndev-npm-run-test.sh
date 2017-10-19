@@ -2,4 +2,4 @@
 
 ##
 cd $1/ndev_modules/$2
-mocha --reporter spec test | sed '/^\s*$/d'
+npm run test

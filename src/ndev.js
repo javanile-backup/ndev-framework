@@ -17,64 +17,74 @@ module.exports = {
     cwd: process.cwd(),
 
     /**
+     * Run ndev module package.json scripts.
      *
      * @param args
      */
     cmdRun: function (args, callback) {
+        if (!args[0]) { return util.err("&require-module", {cmd: "run"}); }
+        if (!args[1]) { return util.err("&require-script", {cmd: "run"}); }
+
         var script = args[1].trim();
 
-        return this.cmdWithModule(
-            "run", "${ndev_module} -> npm run " + script, args, callback
-        );
+        util.info(args[0], "npm run ${script}", {script: script});
+
+        return this.exec("run", args, callback);
     },
 
     /**
+     * Run ndev module package.json scripts.
+     *
+     * @param args
+     */
+    cmdSetup: function (args, callback) {
+        if (!args[0]) { return util.err("&require-module", {cmd: "run"}); }
+
+        util.info(args[0], "setup in progress . . .");
+
+        return this.exec("setup", args, callback);
+    },
+
+    /**
+     * Test command.
      *
      * @param args
      */
     cmdTest: function (args, callback) {
-        return this.cmdWithModule(
-            "test", "testing: ${ndev_module}", args, callback
-        );
+        if (!args[0]) { return util.err("&require-module"); }
+
+        if (!args[1]) {
+            util.info(args[0], "Testing by 'npm run test'");
+            return this.exec("npm-run-test", args, callback);
+        }
+
+        args[1] = 'test/' + args[1] + '-test.js';
+        util.info(args[0], "Testing file '${file}' by ndev-framework", {file: args[1]});
+
+        return this.exec("test-file", args, callback);
     },
 
     /**
-     *
+     * Clone repository and mount as ndev module.
      *
      * @param args
      */
     cmdClone: function (args, callback) {
-        var self = this;
+        if (!args[0]) { return util.err("&require-repository", {cmd: "clone"}); }
 
-        if (!args[0]) {
-            console.error("(ndev) Required repository url or package name.");
-            return;
+        if (!util.isRepo(args[0])) {
+            args[0] = util.getModuleRepo(args[0]);
+            if (!args[0]) {
+                return util.err("&invalid-repository", {cmd: "clone", repo: args[0]});
+            }
         }
-
-        //
-        /*
-        if (!args[1].match(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/)) {
-            var pack = args[1];
-            var name = args[2] ? args[2] : base(repo, ".git");
-
-            util.exec("clone", [this.cwd, repo, name], function(resp) {
-                callback(util.log(msg + "\n" + resp.trim(), {
-                    ndev_module: ndev_module
-                }));
-            });
-
-            exec(__dirname + "/../exec/ndev-clone-pack.sh " + path + " " + repo + " " + name,
-                function (error, stdout, stderr) {
-                    console.log("(ndev)", stderr.trim());
-                }
-            );
-        }
-        */
 
         var repo = args[0].trim();
         var name = args[1] || base(repo, ".git");
 
-        util.exec("clone", [self.cwd, repo, name], function (resp) {
+        util.info("cloning", repo);
+
+        this.exec("clone", [repo, name], function (resp) {
             callback(util.log(resp.trim()));
         });
     },
@@ -146,6 +156,18 @@ module.exports = {
 
     /**
      *
+     * @param args
+     */
+    cmdInfo: function (args, callback) {
+        if (!args[0]) { return util.err("&require-module", {cmd: "info"}); }
+
+        var repo = util.getModuleRepo(args[0]);
+
+        console.log(repo);
+    },
+
+    /**
+     *
      * @param cmd
      * @param args
      * @param callback
@@ -179,6 +201,22 @@ module.exports = {
         });
 
         return util.log(msg);
+    },
+
+    /**
+     *
+     * @param cmd
+     * @param args
+     * @param callback
+     */
+    exec: function (cmd, args, callback) {
+        args.unshift(this.cwd);
+
+        util.exec(cmd, args, function(resp) {
+            callback(util.log(resp));
+        });
+
+        return;
     },
 
     /**

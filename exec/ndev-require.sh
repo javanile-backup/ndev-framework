@@ -1,31 +1,31 @@
 #!/usr/bin/env bash
 
 ##
-# $1 -
-# $2 -
+# $1 - working directory
+# $2 - current ndev module
 # ${@:3} - rest of the arguments
 
-##
+## install into ndev module
 cd $1/ndev_modules/$2
-npm install --save-dev ${@:3}
-rm -fr node_modules
-
-## freeze all ndev modules
-cd $1/ndev_modules
-for d in * ; do
-  if [ -d "$d" ]; then
-    mv ../node_modules/$d ../node_modules/.$d
-  fi
-done
+npm install --save ${@:3}
 
 ## install on root project
 cd $1
-npm install ${@:3}
+if [ -f "package.json" ]; then
+  ## freeze all ndev modules
+  cd $1/ndev_modules
+  for d in * ; do
+    if [ -d "$d" ]; then
+      mv ../node_modules/$d ../node_modules/.$d
+    fi
+  done
 
-## unfreeze all ndev modules
-cd $1/ndev_modules
-for d in * ; do
-  mv ../node_modules/.$d ../node_modules/$d
-done
+  ## avoid annoying reinstall
+  npm install ${@:3}
 
-
+  ## unfreeze all ndev modules
+  cd $1/ndev_modules
+  for d in * ; do
+    mv ../node_modules/.$d ../node_modules/$d
+  done
+fi

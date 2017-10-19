@@ -4,19 +4,20 @@
  * MIT Licensed
  */
 
-var fs   = require("fs");
+var fs = require("fs");
 var path = require("path");
 var ndev = require("./ndev");
 var util = require("./util");
 
 module.exports = {
+
     /**
      *
      *
      * @param args
      */
     run: function(args, callback) {
-        if (!args || args.length === 0) { return util.err("&cmd-required"); }
+        if (!args || args.length === 0) { return util.err("&require-command"); }
 
         var cmd = args.shift().trim();
         var fnc = "cmd" + cmd.charAt(0).toUpperCase() + cmd.slice(1).toLowerCase();
@@ -30,12 +31,13 @@ module.exports = {
                 return this.getHelp(args);
             case "--version":
                 return this.getVersion();
-            default:
-                return util.err("&cmd-undefined", { cmd: cmd });
         }
+
+        return util.err("&cmd-undefined", { cmd: cmd });
     },
 
     /**
+     * Get software help.
      *
      * @param args
      */

@@ -6,7 +6,9 @@
 
 var fs = require("fs");
 var join = require("path").join;
+var spawn = require("child_process").spawn;
 var exec = require("child_process").execSync;
+var col = require("colors");
 
 module.exports = {
 
@@ -20,16 +22,32 @@ module.exports = {
     },
 
     /**
+     * Print info message.
+     *
+     * @param msg
+     */
+    info: function (key, msg, tokens) {
+        console.log(
+            this.indent(
+                col.yellow.bold("<<info>> "+key+": "),
+                col.white(this.applyTokens(msg, tokens))
+            )
+        );
+    },
+
+    /**
      * Print error message.
      *
      * @param msg
      */
     err: function (msg, tokens) {
         switch (msg) {
+            case "&require-command": msg = "Missing command, type 'ndev --help'."; break;
+            case "&require-script": msg = "Missing script name, type 'ndev --help ${cmd}'."; break;
+            case "&require-module": msg = "Missing module name, type 'ndev --help ${cmd}'."; break;
             case "&cmd-undefined": msg = "Undefined command '${cmd}', type 'ndev --help'."; break;
-            case "&cmd-required":  msg = "Command required, type 'ndev --help'."; break;
         }
-        return this.indent("(ndev)  ", this.applyTokens(msg, tokens));
+        return this.indent(col.red.bold("<<error>> "), col.white(this.applyTokens(msg, tokens)));
     },
 
     /**
@@ -71,15 +89,48 @@ module.exports = {
     /**
      *
      */
+    isRepo: function (repo) {
+        return repo.match(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/);
+    },
+
+    /**
+     *
+     */
+    getModuleRepo: function (module) {
+        var repo = null;
+        try {
+            repo = exec("npm view " + module + " repository.url --silent")+"";
+        } catch (ex) {}
+        return repo ? repo.replace(/^git\+https/i, "https") : null;
+    },
+
+    /**
+     *
+     */
     exec: function (cmd, args, callback) {
         var ext = ".sh";
         var script = join(__dirname, "../exec/ndev-" + cmd + ext);
-        var params = args.length > 0 ? args.join(" ") : "";
+        var rawCommand = cmd + " " + args.join(" ");
 
-        exec(script + " " + params, function (error, stdout, stderr) {
-            //if (error) { console.error(error); }
-            callback((stdout + "\n" + stderr).trim());
+        // Running command
+        var wrapper = spawn(script, args);
+
+        // Attach stdout handler
+        wrapper.stdout.on("data", function (data) {
+            process.stdout.write(data.toString());
         });
+
+        // Attach stderr handler
+        wrapper.stderr.on("data", function (data) {
+            process.stdout.write(data.toString());
+        });
+
+        // Attach exit handler
+        wrapper.on("exit", function (code) {
+            var code = code.toString();
+        });
+
+        return rawCommand;
     },
 
     /**

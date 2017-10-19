@@ -17,8 +17,6 @@ if (!fs.existsSync(local)) {
     cli = require(local);
 }
 
-var log = function (data) {
-    if (data) { process.stdout.write(data + "\n"); }
-};
-
-log(cli.run(arg, log));
+cli.run(arg, function (output) {
+    console.log(output);
+});
