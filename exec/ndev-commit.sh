@@ -1,14 +1,18 @@
 #!/usr/bin/env bash
 
 ##
-# $1 - working directory
-# $2 - ndev module folder
+# $1 - Working directory
+# $2 - Curent ndev module
+# $3 - Commit message
 
+##
 cd $1/ndev_modules/$2
-ver=$(cat package.json | grep version | tr -d ',":')
+
+##
+git pull
 git add .
 git add *
 git config push.default simple
-git commit -m "$ver"
+git commit -m "$3"
 git pull
 git push

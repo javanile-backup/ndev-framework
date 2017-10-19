@@ -145,9 +145,10 @@ module.exports = {
 
         util.info(args[0], "Commit and push changes (git login)");
 
-        console.log(args);
+        var module = args.shift().trim();
+        var message = args.join(" ").trim() || "Update from " + this.getVersion(module);
 
-        return this.exec("commit", args, callback);
+        return this.exec("commit", [module, message], callback);
     },
 
     /**
@@ -245,6 +246,17 @@ module.exports = {
     savePackageJson: function (module, info) {
         var file = join(this.cwd, 'node_modules', module, 'package.json');
         util.saveJson(file, info);
+    },
+
+    /**
+     * Get version number of module.
+     */
+    getVersion: function (module) {
+        var info = this.loadPackageJson(module);
+        if (typeof info["version"] != "undefined" && info["version"]) {
+            return info["version"];
+        }
+        return "0.0.0";
     },
 
     /**
