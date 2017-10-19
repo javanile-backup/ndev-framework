@@ -179,8 +179,6 @@ module.exports = {
      * @param args
      */
     cmdRequire: function (args, callback) {
-
-
         return this.exec("require", args, callback);
     },
 
@@ -194,43 +192,6 @@ module.exports = {
         var repo = util.getModuleRepo(args[0]);
 
         console.log(repo);
-    },
-
-    /**
-     *
-     * @param cmd
-     * @param args
-     * @param callback
-     */
-    cmdWithModule: function (cmd, msg, args, callback) {
-        if (!args[0]) { return util.err("&ndev-required"); }
-
-        var ndev_module = args.shift().trim();
-
-        args.unshift(ndev_module);
-        args.unshift(this.cwd);
-
-        util.exec(cmd, args, function(resp) {
-            callback(util.log(util.trim(msg + "\n" + resp), {
-                ndev_module: ndev_module
-            }));
-        });
-    },
-
-    /**
-     *
-     * @param cmd
-     * @param args
-     * @param callback
-     */
-    cmdWithArgs: function (cmd, msg, args, callback) {
-        args.unshift(this.cwd);
-        // this is test
-        util.exec(cmd, args, function(resp) {
-            callback(util.log(resp));
-        });
-
-        return util.log(msg);
     },
 
     /**
