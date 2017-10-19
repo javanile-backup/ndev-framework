@@ -43,9 +43,9 @@ module.exports = {
      */
     getHelp: function (args) {
         var help = path.join(__dirname, "../help/help.txt");
-        if (!args[0]) { return fs.readFileSync(help); }
+        if (!args[0]) { console.log(fs.readFileSync(help)+""); }
         help = path.join(__dirname, "../help/" + args[0] + ".txt");
-        if (fs.existsSync(help)) { return fs.readFileSync(help); }
+        if (fs.existsSync(help)) { return console.log(fs.readFileSync(help)+""); }
         return util.err("&cmd-undefined", { cmd: args[0] });
     },
 
@@ -56,6 +56,7 @@ module.exports = {
      */
     getVersion: function () {
         var info = JSON.parse(fs.readFileSync(path.join(__dirname, "../package.json")), "utf8");
+        util.info("ndev-framework " + info.version, "developed by Francesco Bianco <bianco@javanile.org>");
         return info.name + "@" + info.version;
     }
 };
