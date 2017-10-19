@@ -148,6 +148,13 @@ module.exports = {
      */
     saveJson: function (file, info) {
         fs.writeFileSync(file, JSON.stringify(info, null, 4));
+    },
+
+    /**
+     *
+     */
+    dirExists: function (path) {
+        return fs.existsSync(path);
     }
 };
 

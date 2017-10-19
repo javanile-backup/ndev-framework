@@ -25,7 +25,7 @@ module.exports = {
         if (!args[0]) { return util.err("&require-module", {cmd: "run"}); }
         if (!args[1]) { return util.err("&require-script", {cmd: "run"}); }
 
-        util.info(args[0], "npm run ${script}", {script: args[1]});
+        util.info(args[0], "Executing: 'npm run ${script}'", {script: args[1]});
 
         return this.exec("run", args, callback);
     },
@@ -38,7 +38,7 @@ module.exports = {
     cmdSetup: function (args, callback) {
         if (!args[0]) { return util.err("&require-module", {cmd: "run"}); }
 
-        util.info(args[0], "setup in progress . . .");
+        util.info(args[0], "Setup in progress...");
 
         return this.exec("setup", args, callback);
     },
@@ -49,7 +49,7 @@ module.exports = {
      * @param args
      */
     cmdTest: function (args, callback) {
-        if (!args[0]) { return util.err("&require-module"); }
+        if (!args[0]) { return util.err("&require-module", {cmd: "test"}); }
 
         if (!args[1]) {
             util.info(args[0], "Testing by 'npm run test'");
@@ -80,7 +80,7 @@ module.exports = {
         var repo = args[0].trim();
         var name = args[1] || base(repo, ".git");
 
-        util.info("cloning", repo);
+        util.info("Cloning", repo);
 
         this.exec("clone", [repo, name], function (resp) {
             callback(util.log(resp.trim()));
@@ -93,9 +93,11 @@ module.exports = {
      * @param args
      */
     cmdMount: function (args, callback) {
-        return this.cmdWithModule(
-            "mount", "mount module: ${ndev_module}", args, callback
-        );
+        if (!args[0]) { return util.err("&require-repository", {cmd: "mount"}); }
+
+        util.info(args[0], "Mounting...");
+
+        return this.exec("mount", args, callback);
     },
 
     /**
@@ -103,7 +105,8 @@ module.exports = {
      * @param args
      */
     cmdInstall: function (args, callback) {
-        return this.cmdWithArgs("install", "Wait during install...", args, callback);
+        util.info("running", "npm install "+args.join(" "));
+        return this.exec("install", args, callback);
     },
 
     /**
@@ -111,7 +114,17 @@ module.exports = {
      * @param args
      */
     cmdFreeze: function (args, callback) {
-        return this.cmdWithModule("freeze", "freeze", args, callback);
+        if (!args[0]) { return util.err("&require-module", {cmd: "freeze"}); }
+        var path = join(this.cwd, "node_modules", "." + args[0]);
+        if (util.dirExists(path)) {
+            return util.err("Module '${mod}' already freeze.", {mod: args[0]});
+        }
+        path = join(this.cwd, 'node_modules', args[0]);
+        if (!util.dirExists(path)) {
+            return util.err("Module '${mod}' not found.", {mod: args[0]});
+        }
+        util.info(args[0], "Freezing...");
+        return this.exec("freeze", args, callback);
     },
 
     /**
@@ -119,7 +132,17 @@ module.exports = {
      * @param args
      */
     cmdUnfreeze: function (args, callback) {
-        return this.cmdWithModule("unfreeze", "freeze", args, callback);
+        if (!args[0]) { return util.err("&require-module", {cmd: "unfreeze"}); }
+        var path = join(this.cwd, "node_modules", args[0]);
+        if (util.dirExists(path)) {
+            return util.err("Module '${mod}' already unfreeze.", {mod: args[0]});
+        }
+        path = join(this.cwd, 'node_modules', "."+args[0]);
+        if (!util.dirExists(path)) {
+            return util.err("Missing module freeze for '${mod}'.", {mod: args[0]});
+        }
+        util.info(args[0], "Unfreezing...");
+        return this.exec("unfreeze", args, callback);
     },
 
     /**
