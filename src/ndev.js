@@ -127,7 +127,7 @@ module.exports = {
      * @param args
      */
     cmdPublish: function (args, callback) {
-        if (!args[0]) { return util.err("&ndev-required"); }
+        if (!args[0]) { return util.err("&require-module", {cmd: "publish"}); }
 
         var ver = this.versionUpdate(args[0]);
 
@@ -141,7 +141,13 @@ module.exports = {
      * @param args
      */
     cmdCommit: function (args, callback) {
-        return this.cmdWithModule("commit", "commit module: ${ndev_module}", args, callback);
+        if (!args[0]) { return util.err("&require-module", {cmd: "commit"}); }
+
+        util.info(args[0], "Commit and push changes (git login)");
+
+        console.log(args);
+
+        return this.exec("commit", args, callback);
     },
 
     /**
