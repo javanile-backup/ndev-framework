@@ -254,4 +254,4 @@ module.exports = {
         this.savePackageJson(module, info);
         return info.version;
     }
-}
+};

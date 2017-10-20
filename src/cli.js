@@ -12,7 +12,7 @@ var util = require("./util");
 module.exports = {
 
     /**
-     *
+     * Command line entry point.
      *
      * @param args
      */

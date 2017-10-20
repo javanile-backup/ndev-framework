@@ -166,5 +166,3 @@ module.exports = {
         return fs.existsSync(path);
     }
 };
-
-
