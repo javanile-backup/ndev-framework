@@ -178,6 +178,20 @@ module.exports = {
      *
      * @param args
      */
+    cmdUpdate: function (args, callback) {
+        if (!args[0]) { return util.err("&require-module", {cmd: "update"}); }
+
+        util.info(args[0], "Update source code (git login)");
+
+        var module = args.shift().trim();
+
+        return this.exec("update", [module], callback);
+    },
+
+    /**
+     *
+     * @param args
+     */
     cmdRequire: function (args, callback) {
         return this.exec("require", args, callback);
     },

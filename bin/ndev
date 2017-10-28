@@ -5,11 +5,13 @@
  * MIT Licensed
  */
 
-var fs = require("fs");
-var path = require("path");
-var local = path.join(process.cwd(), "node_modules/ndev-framework/src/cli.js");
-var arg = process.argv.slice(2);
-var cli = null;
+"use strict";
+
+var fs = require("fs"),
+    path = require("path"),
+    local = path.join(process.cwd(), "node_modules/ndev-framework/src/cli.js"),
+    arg = process.argv.slice(2),
+    cli = null;
 
 if (!fs.existsSync(local)) {
     cli = require("../src/cli");
