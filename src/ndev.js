@@ -117,7 +117,7 @@ module.exports = {
         var path = null;
 
         if (!args[0]) {
-            util.info(args[0], "Freezing all ndev modules...");
+            util.info("freeze", "Freezing all ndev modules...");
             return this.exec("freeze-all", args, callback);
         }
 
@@ -143,7 +143,7 @@ module.exports = {
     cmdUnfreeze: function (args, callback) {
         var path = null;
         if (!args[0]) {
-            util.info(args[0], "Unfreezing all ndev modules...");
+            util.info("unfreeze", "Unfreezing all ndev modules...");
             return this.exec("unfreeze-all", args, callback);
         }
 
