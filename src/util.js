@@ -47,7 +47,10 @@ module.exports = {
             case "&require-module": msg = "Missing module name, type 'ndev --help ${cmd}'."; break;
             case "&cmd-undefined": msg = "Undefined command '${cmd}', type 'ndev --help'."; break;
         }
-        return this.indent(col.red.bold("<<error>> "), col.white(this.applyTokens(msg, tokens)));
+        console.log(
+            this.indent(col.red.bold("<<error>> "),
+            col.white(this.applyTokens(msg, tokens)))
+        );
     },
 
     /**

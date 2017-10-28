@@ -114,16 +114,24 @@ module.exports = {
      * @param args
      */
     cmdFreeze: function (args, callback) {
-        if (!args[0]) { return util.err("&require-module", {cmd: "freeze"}); }
-        var path = join(this.cwd, "node_modules", "." + args[0]);
+        var path = null;
+
+        if (!args[0]) {
+            return this.exec("freeze-all", args, callback);
+        }
+
+        path = join(this.cwd, "node_modules", "." + args[0]);
         if (util.dirExists(path)) {
             return util.err("Module '${mod}' already freeze.", {mod: args[0]});
         }
+
         path = join(this.cwd, 'node_modules', args[0]);
         if (!util.dirExists(path)) {
             return util.err("Module '${mod}' not found.", {mod: args[0]});
         }
+
         util.info(args[0], "Freezing...");
+
         return this.exec("freeze", args, callback);
     },
 
@@ -132,16 +140,23 @@ module.exports = {
      * @param args
      */
     cmdUnfreeze: function (args, callback) {
-        if (!args[0]) { return util.err("&require-module", {cmd: "unfreeze"}); }
-        var path = join(this.cwd, "node_modules", args[0]);
+        var path = null;
+        if (!args[0]) {
+            return this.exec("unfreeze-all", args, callback);
+        }
+
+        path = join(this.cwd, "node_modules", args[0]);
         if (util.dirExists(path)) {
             return util.err("Module '${mod}' already unfreeze.", {mod: args[0]});
         }
+
         path = join(this.cwd, 'node_modules', "."+args[0]);
         if (!util.dirExists(path)) {
             return util.err("Missing module freeze for '${mod}'.", {mod: args[0]});
         }
+
         util.info(args[0], "Unfreezing...");
+
         return this.exec("unfreeze", args, callback);
     },
 
