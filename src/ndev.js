@@ -44,6 +44,19 @@ module.exports = {
     },
 
     /**
+     * Run ndev module package.json scripts.
+     *
+     * @param args
+     */
+    cmdFix: function (args, callback) {
+        if (!args[0]) { return util.err("&require-module", {cmd: "fix"}); }
+
+        util.info(args[0], "ESLint fix...");
+
+        return this.exec("fix", args, callback);
+    },
+
+    /**
      * Test command.
      *
      * @param args
