@@ -5,7 +5,7 @@
 # $2 - Repository clone url
 # $3 - Folder name for the module
 
-##
+## goto working directory
 cd $1
 
 ## prepare folder structure
@@ -15,13 +15,10 @@ mkdir node_modules > /dev/null 2>&1
 [ -d mode_modules/$3 ] && rm -fr node_modules/$3
 
 ## clone codebase
-cd node_modules
-git clone $2 $3
+cd node_modules && git clone $2 $3
 
 ## create symbolic link
-cd ..
-ln -s ../node_modules/$3 ndev_modules/$3
+cd .. && ln -s ../node_modules/$3 ndev_modules/$3
 
-##
-cd ndev_modules/$3
-npm install
+## install dependencies
+cd ndev_modules/$3 && npm install

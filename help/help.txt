@@ -8,6 +8,7 @@
           mount <module>               Mount root package into ndev_modules
           freeze <module>              Hide ndev module at root project
           unfreeze <module>            Restore ndev module at root project
+          purge <module>               Restore ndev module at root project
           test <module>                Run test inside ndev module
           run <module> <script>        Run script inside ndev module
  Manuals: ndev --help [commnad]

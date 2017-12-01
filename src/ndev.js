@@ -115,6 +115,19 @@ module.exports = {
 
     /**
      *
+     *
+     * @param args
+     */
+    cmdPurge: function (args, callback) {
+        if (!args[0]) { return util.err("&require-repository", {cmd: "purge"}); }
+
+        util.info(args[0], "Purge...");
+
+        return this.exec("purge", args, callback);
+    },
+
+    /**
+     *
      * @param args
      */
     cmdInstall: function (args, callback) {
