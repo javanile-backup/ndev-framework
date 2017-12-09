@@ -4,10 +4,10 @@
  * MIT Licensed
  */
 
-var fs = require("fs");
-var path = require("path");
-var ndev = require("./ndev");
-var util = require("./util");
+var fs = require("fs"),
+    path = require("path"),
+    ndev = require("./ndev"),
+    util = require("./util");
 
 module.exports = {
 
