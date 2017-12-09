@@ -4,9 +4,9 @@
  * MIT Licensed
  */
 
-var base = require("path").basename;
-var join = require("path").join;
-var util = require("./util");
+var base = require("path").basename,
+    join = require("path").join,
+    util = require("./util");
 
 module.exports = {
 
