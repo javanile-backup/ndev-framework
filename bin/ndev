@@ -1,24 +1,16 @@
 #!/usr/bin/env node
 /*!
  * ndev-framework
- * Copyright(c) 2016-2017 Javanile.org
+ * Copyright(c) 2016-2018 Javanile.org
  * MIT Licensed
  */
 
-"use strict";
+'use strict';
 
-var fs = require("fs"),
-    path = require("path"),
-    local = path.join(process.cwd(), "node_modules/ndev-framework/src/cli.js"),
-    arg = process.argv.slice(2),
-    cli = null;
+const fs = require('fs')
+    , cwd = process.cwd()
+    , join = require('path').join
+    , local = join(cwd, './node_modules/ndev-framework/src/cli.js')
+    , cli = fs.existsSync(local) ? local : '../src/cli.js'
 
-if (!fs.existsSync(local)) {
-    cli = require("../src/cli");
-} else {
-    cli = require(local);
-}
-
-cli.run(arg, function (output) {
-    console.log(output);
-});
+require(cli).run(process.argv.slice(2))
