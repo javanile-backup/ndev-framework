@@ -9,6 +9,8 @@ const fs = require('fs')
     , spawn = require('child_process').spawn
     , exec = require('child_process').execSync
     , col = require('colors')
+    , request = require('request')
+
 
 module.exports = {
 
@@ -52,6 +54,9 @@ module.exports = {
                 msg = "Missing module or repository url, type 'ndev --help ${cmd}'."; break;
             case '&cmd-undefined':
                 msg = "Undefined command '${cmd}', type 'ndev --help'."; break;
+            case '&unreachable-repository-url':
+                msg = "Unreachable repository url '${cmd}'."; break;
+
         }
         console.log(
             this.indent(col.red.bold('<<error>> '),
@@ -170,5 +175,18 @@ module.exports = {
      */
     dirExists: function (path) {
         return fs.existsSync(path);
+    },
+
+    /**
+     * Check if url exists.
+     *
+     * @param url
+     * @param cb
+     */
+    urlExists: function (url, cb) {
+        request({ url: url, method: 'HEAD' }, function(err, res) {
+            if (err) return cb(false);
+            cb(/4\d\d/.test(res.statusCode) === false);
+        });
     }
-};
+}

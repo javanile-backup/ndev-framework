@@ -22,10 +22,11 @@
         "chai": "^3.5.0",
         "chai-fs": "^1.0.0",
         "colors": "^1.1.2",
-        "mocha": "^3.2.0"
+        "mocha": "^5.2.0"
     },
     "dependencies": {
         "colors": "^1.1.2",
+        "request": "^2.87.0",
         "validate-npm-package-name": "^3.0.0"
     }
 }

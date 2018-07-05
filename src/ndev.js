@@ -38,6 +38,9 @@ module.exports = {
 
         if (util.isRepositoryUrl(args[0])) {
             var name = args[1] || basename(args[0], '.git');
+            if (!util.urlExists(args[0])) {
+                return util.err('init', '&unreachable-repository-url', { url: args[0] })
+            }
             this.cmdClone(args, () => {
                 this.cmdInit([name])
             })
