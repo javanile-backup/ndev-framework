@@ -10,6 +10,7 @@ const fs = require('fs')
     , exec = require('child_process').execSync
     , col = require('colors')
     , validate = require('validate-npm-package-name')
+    , util = require('./util')
 
 module.exports = {
 
@@ -21,7 +22,7 @@ module.exports = {
      * @param callback
      */
     isValidModuleName: function (module) {
-        return validate(module);
+        return validate(module).validForNewPackages;
     },
 
     /**
@@ -31,8 +32,9 @@ module.exports = {
      * @param args
      * @param callback
      */
-    loadPackageJson: function (module) {
-        var file = join(this.cwd, 'node_modules', module, 'package.json');
+    loadPackageJson: function (module, cwd) {
+        cwd = cwd || process.cwd()
+        var file = join(cwd, 'node_modules', module, 'package.json');
         return util.loadJson(file);
     },
 
@@ -42,8 +44,9 @@ module.exports = {
      * @param args
      * @param callback
      */
-    savePackageJson: function (module, info) {
-        var file = join(this.cwd, 'node_modules', module, 'package.json');
+    savePackageJson: function (module, info, cwd) {
+        cwd = cwd || process.cwd()
+        var file = join(cwd, 'node_modules', module, 'package.json');
         util.saveJson(file, info);
     },
 
@@ -61,8 +64,8 @@ module.exports = {
     /**
      * Get version number of module.
      */
-    getVersion: function (module) {
-        var info = this.loadPackageJson(module);
+    getVersion: function (module, cwd) {
+        var info = this.loadPackageJson(module, cwd);
         if (typeof info["version"] != "undefined" && info["version"]) {
           return info["version"];
         }
@@ -72,12 +75,12 @@ module.exports = {
     /**
      * Update version number by smallest unit.
      */
-    versionUpdate: function (module) {
-        var info = this.loadPackageJson(module);
+    versionUpdate: function (module, cwd) {
+        var info = this.loadPackageJson(module, cwd);
         var verOld = info.version.split(".");
         verOld[verOld.length - 1] = parseInt(verOld[verOld.length - 1]) + 1;
         info.version = verOld.join(".");
-        this.savePackageJson(module, info);
+        this.savePackageJson(module, info, cwd);
         return info.version;
     }
 }

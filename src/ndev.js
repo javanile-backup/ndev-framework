@@ -4,9 +4,10 @@
  * MIT Licensed
  */
 
-const base = require('path').basename
+const basename = require('path').basename
     , join = require('path').join
     , util = require('./util')
+    , mod = require('./mod')
 
 module.exports = {
 
@@ -28,7 +29,7 @@ module.exports = {
         }
 
         if (args[1] && !mod.isValidModuleName(args[1])) {
-            args[0] = 'https://github.com/' + args[0]
+            return util.err('&invalid-module-name', {mod: args[1]})
         }
 
         if (util.isRepositoryName(args[0])) {
@@ -36,7 +37,7 @@ module.exports = {
         }
 
         if (util.isRepositoryUrl(args[0])) {
-            var name = args[1] ||
+            var name = args[1] || basename(args[0], '.git');
             this.cmdClone(args, () => {
                 this.cmdInit([name])
             })
@@ -122,15 +123,15 @@ module.exports = {
             return util.err('&require-repository', {cmd: 'clone'});
         }
 
-        if (!util.isRepo(args[0])) {
-            args[0] = util.getModuleRepo(args[0]);
+        if (!util.isRepositoryName(args[0])) {
+            args[0] = mod.getModuleRepository(args[0]);
             if (!args[0]) {
                 return util.err('&invalid-repository', {cmd: 'clone', repo: args[0]});
             }
         }
 
         var repo = args[0].trim();
-        var name = args[1] || base(repo, '.git');
+        var name = args[1] || basename(repo, '.git');
 
         util.info('Cloning', repo);
 
@@ -240,9 +241,9 @@ module.exports = {
             return util.err('&require-module', {cmd: 'publish'});
         }
 
-        var ver = this.versionUpdate(args[0]);
+        var ver = mod.versionUpdate(args[0], this.cwd);
 
-        util.info(args[0], 'Publish new version \'${ver}\'', {ver: ver});
+        util.info(args[0], "Publish new version '${ver}'", {ver: ver});
 
         return this.exec('publish', args, callback);
     },
@@ -259,7 +260,7 @@ module.exports = {
         util.info(args[0], 'Commit and push changes (git login)');
 
         var module = args.shift().trim();
-        var message = util.ucfirst(args.join(' ').trim()) || 'Update from ' + this.getVersion(module);
+        var message = util.ucfirst(args.join(' ').trim()) || 'Update from ' + mod.getVersion(module, this.cwd);
 
         return this.exec('commit', [module, message], callback);
     },
