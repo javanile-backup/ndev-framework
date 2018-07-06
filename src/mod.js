@@ -53,12 +53,16 @@ module.exports = {
     /**
      *
      */
-    getModuleRepo: function (module) {
+    getModuleRepository: function (module) {
         var repo = null;
+
         try {
             repo = exec('npm view ' + module + ' repository.url --silent')+'';
-        } catch (ex) {}
-        return repo ? repo.replace(/^git\+https/i, 'https') : null;
+        } catch (ex) {
+            // suppress any errors
+        }
+
+        return repo ? repo.replace(/^git\+https/i, 'https').trim() : null;
     },
 
     /**

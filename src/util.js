@@ -116,7 +116,7 @@ module.exports = {
      *
      */
     isRepositoryName: function (name) {
-        return name.match(/[a-z0-9-]+\/[a-z0-9-]+/i);
+        return name.match(/^[a-z0-9-]+\/[a-z0-9-]+$/i);
     },
 
     /**

@@ -137,6 +137,7 @@ module.exports = {
      * @param args
      */
     cmdClone: function (args, cb) {
+        console.log(args)
         if (!args[0]) {
             return cb(util.err('&require-repository', {cmd: 'clone'}))
         }
@@ -152,9 +153,9 @@ module.exports = {
         if (util.isRepositoryUrl(args[0])) {
             return util.urlExists(args[0], (exists) => {
                 if (exists) {
-                    var name = args[1] || basename(repo, '.git');
-                    util.info(name, 'Cloning ' + repo);
-                    this.exec('clone', [args[0], name], (err) => {
+                    var name = args[1] || basename(args[0], '.git');
+                    util.info(name, 'Cloning ' + args[0]);
+                    this.exec('clone', [args[0], name, name], (err) => {
                         return cb(err);
                     });
                 } else {
@@ -162,19 +163,17 @@ module.exports = {
                 }
             })
         }
-        /*
-            var name = args[1] || basename(args[0], '.git');
 
-        if (!util.isRepositoryName(args[0])) {
-            args[0] = mod.getModuleRepository(args[0]);
-            if (!args[0]) {
-                return util.err('&invalid-repository', {cmd: 'clone', repo: args[0]});
-            }
+        if (!mod.isValidModuleName(args[0])) {
+            return cb(util.err('&invalid-module-name', {mod: args[0]}))
         }
 
-        var repo = args[0].trim();
+        args[0] = mod.getModuleRepository(args[0]);
+        if (!args[0]) {
+            return cb(util.err('&repository-not-found'));
+        }
 
-        */
+        return this.cmdClone(args, cb)
     },
 
     /**
