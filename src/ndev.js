@@ -44,15 +44,17 @@ module.exports = {
         //
         var name = args[1] || args[0];
         var moduleDir = join(this.cwd, 'ndev_modules', name)
+
+        //
         var packageJsonFile = join(moduleDir, 'package.json')
         if (!util.fileExists(packageJsonFile)) {
             util.info(args[0], "Create 'package.json' file.")
             var data = util.loadJson(join(__dirname, '../tpl/package.json'))
             data.name = args[0]
             try {
-                data.author.name = exec('cd ' + moduleDir + '; git config user.name')+''
-                data.author.email = exec('cd ' + moduleDir + '; git config user.email')+''
-                data.repository.url = exec('cd ' + moduleDir + '; git config --get remote.origin.url')+''
+                data.author.name = exec('cd ' + moduleDir + '&& git config user.name')+''
+                data.author.email = exec('cd ' + moduleDir + '&& git config user.email')+''
+                data.repository.url = exec('cd ' + moduleDir + '&& git config --get remote.origin.url')+''
             } catch (e) {
                 util.err("Check manually 'ndev_modules/" + name + "/package.json' file.");
             }
@@ -134,30 +136,34 @@ module.exports = {
      *
      * @param args
      */
-    cmdClone: function (args, callback) {
-        /*
+    cmdClone: function (args, cb) {
         if (!args[0]) {
-            return util.err('&require-repository', {cmd: 'clone'})
+            return cb(util.err('&require-repository', {cmd: 'clone'}))
         }
+
         if (args[1] && !mod.isValidModuleName(args[1])) {
-            return util.err('&invalid-module-name', {mod: args[1]})
+            return cb(util.err('&invalid-module-name', {mod: args[1]}))
         }
+
         if (util.isRepositoryName(args[0])) {
             args[0] = 'https://github.com/' + args[0]
         }
 
         if (util.isRepositoryUrl(args[0])) {
             return util.urlExists(args[0], (exists) => {
-
+                if (exists) {
+                    var name = args[1] || basename(repo, '.git');
+                    util.info(name, 'Cloning ' + repo);
+                    this.exec('clone', [args[0], name], (err) => {
+                        return cb(err);
+                    });
+                } else {
+                    return cb(util.err('&unreachable-repository-url', { url: args[0] }))
+                }
             })
-
+        }
+        /*
             var name = args[1] || basename(args[0], '.git');
-
-            this.cmdInit([name])
-        })
-
-    }
-                return util.err('clone', '&unreachable-repository-url', { url: args[0] })
 
         if (!util.isRepositoryName(args[0])) {
             args[0] = mod.getModuleRepository(args[0]);
@@ -167,13 +173,7 @@ module.exports = {
         }
 
         var repo = args[0].trim();
-        var name = args[1] || basename(repo, '.git');
 
-        util.info('Cloning', repo);
-
-        this.exec('clone', [repo, name], function (resp) {
-            callback(util.log(resp.trim()));
-        });
         */
     },
 

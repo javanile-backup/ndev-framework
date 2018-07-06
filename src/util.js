@@ -55,13 +55,16 @@ module.exports = {
             case '&cmd-undefined':
                 msg = "Undefined command '${cmd}', type 'ndev --help'."; break;
             case '&unreachable-repository-url':
-                msg = "Unreachable repository url '${cmd}'."; break;
-
+                msg = "Unreachable repository url '${url}'."; break;
+            case '&invalid-module-name':
+                msg = "Invalid module name '${mod}'."; break;
         }
-        console.log(
-            this.indent(col.red.bold('<<error>> '),
-            col.white(this.applyTokens(msg, tokens)))
-        );
+
+        msg = this.applyTokens(msg, tokens);
+
+        console.log(this.indent(col.red.bold('<<error>> '), col.white(msg)));
+
+        return { error: msg }
     },
 
     /**
