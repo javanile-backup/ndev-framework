@@ -21,7 +21,6 @@
     "devDependencies": {
         "chai": "^3.5.0",
         "chai-fs": "^1.0.0",
-        "colors": "^1.1.2",
         "mocha": "^5.2.0"
     },
     "dependencies": {

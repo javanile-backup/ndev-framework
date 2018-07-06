@@ -167,7 +167,14 @@ module.exports = {
      * @param info
      */
     saveJson: function (file, info) {
-        fs.writeFileSync(file, JSON.stringify(info, null, 4));
+        fs.writeFileSync(file, JSON.stringify(info, null, 4), { flag: 'w' });
+    },
+
+    /**
+     *
+     */
+    fileExists: function (file) {
+        return file && fs.existsSync(file) && fs.lstatSync(file).isFile()
     },
 
     /**

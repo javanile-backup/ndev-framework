@@ -1,0 +1,23 @@
+{
+    "name": "",
+    "version": "0.0.0",
+    "license": "MIT",
+    "author": {
+        "name": "",
+        "email": ""
+    },
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "scripts": {
+        "test": "mocha --reporter spec --recursive | sed '/^\\s*$/d'",
+        "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --recursive"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "mocha": "^5.2.0"
+    },
+    "dependencies": {
+    }
+}
