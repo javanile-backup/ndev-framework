@@ -113,20 +113,6 @@ module.exports = {
     },
 
     /**
-     *
-     */
-    isRepositoryName: function (name) {
-        return name.match(/^[a-z0-9-]+\/[a-z0-9-]+$/i);
-    },
-
-    /**
-     * Check is valid repository url.
-     */
-    isRepositoryUrl: function (url) {
-        return url.match(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/);
-    },
-
-    /**
      * Execute specific internal scripted command.
      *
      */

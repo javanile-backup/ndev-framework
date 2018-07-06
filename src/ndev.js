@@ -7,7 +7,8 @@
 const basename = require('path').basename
     , join = require('path').join
     , util = require('./util')
-    , mod = require('./mod')
+    , repo = require('./repo')
+    , pack = require('./pack')
 
 module.exports = {
 
@@ -29,7 +30,7 @@ module.exports = {
         }
 
         // check if require clone before
-        if (util.isRepositoryName(args[0]) || util.isRepositoryUrl(args[0])) {
+        if (repo.isRepositoryName(args[0]) || repo.isRepositoryUrl(args[0])) {
             var name = args[1] || basename(args[0], '.git');
             if (!util.dirExists(join(this.cwd, 'ndev_modules', name))) {
                 return this.cmdClone(args, (err) => {
@@ -142,33 +143,39 @@ module.exports = {
             return cb(util.err('&require-repository', {cmd: 'clone'}))
         }
 
-        if (args[1] && !mod.isValidModuleName(args[1])) {
+        if (args[1] && !pack.isValidPackageName(args[1])) {
             return cb(util.err('&invalid-module-name', {mod: args[1]}))
         }
 
-        if (util.isRepositoryName(args[0])) {
+        if (repo.isRepositoryName(args[0])) {
             args[0] = 'https://github.com/' + args[0]
         }
 
-        if (util.isRepositoryUrl(args[0])) {
+        if (repo.isRepositoryUrl(args[0])) {
             return util.urlExists(args[0], (exists) => {
                 if (exists) {
-                    var name = args[1] || basename(args[0], '.git');
-                    util.info(name, 'Cloning ' + args[0]);
-                    this.exec('clone', [args[0], name, name], (err) => {
-                        return cb(err);
-                    });
+                    pack.getPackageNameFromRepository(args[0], (name) => {
+                        var alias = args[1] || basename(args[0], '.git');
+                        util.info(name, 'Cloning ' + args[0]);
+                        this.exec('clone', [args[0], name, alias], (err) => {
+                            return cb(err);
+                        })
+                    })
                 } else {
                     return cb(util.err('&unreachable-repository-url', { url: args[0] }))
                 }
             })
         }
 
-        if (!mod.isValidModuleName(args[0])) {
+        if (!pack.isValidPackageName(args[0])) {
             return cb(util.err('&invalid-module-name', {mod: args[0]}))
         }
 
-        args[0] = mod.getModuleRepository(args[0]);
+        if (!pack.existsPackage(args[0])) {
+            return cb(util.err('&module-not-exists', {mod: args[0]}))
+        }
+
+        args[0] = pack.getPackageRepository(args[0]);
         if (!args[0]) {
             return cb(util.err('&repository-not-found'));
         }
@@ -277,7 +284,7 @@ module.exports = {
             return util.err('&require-module', {cmd: 'publish'});
         }
 
-        var ver = mod.versionUpdate(args[0], this.cwd);
+        var ver = pack.versionUpdate(args[0], this.cwd);
 
         util.info(args[0], "Publish new version '${ver}'", {ver: ver});
 
@@ -296,7 +303,7 @@ module.exports = {
         util.info(args[0], 'Commit and push changes (git login)');
 
         var module = args.shift().trim();
-        var message = util.ucfirst(args.join(' ').trim()) || 'Update from ' + mod.getVersion(module, this.cwd);
+        var message = util.ucfirst(args.join(' ').trim()) || 'Update from ' + pack.getVersion(module, this.cwd);
 
         return this.exec('commit', [module, message], callback);
     },
@@ -332,7 +339,7 @@ module.exports = {
     cmdInfo: function (args, callback) {
         if (!args[0]) { return util.err('&require-module', {cmd: 'info'}) }
 
-        var repo = mod.getModuleRepo(args[0]);
+        var repo = pack.getModuleRepo(args[0]);
 
         console.log(repo);
     },
