@@ -116,7 +116,7 @@ module.exports = {
      * Execute specific internal scripted command.
      *
      */
-    exec: function (cmd, args, callback) {
+    exec: function (cmd, args, cb) {
         var ext = process.platform == 'win32' ? '.bat' : '.sh';
         var script = join(__dirname, '../exec/' + cmd + ext);
         var rawCommand = cmd + ' ' + args.join(' ');
@@ -135,7 +135,8 @@ module.exports = {
         });
 
         // Attach exit handler
-        wrapper.on('exit', function (code) {
+        wrapper.on('exit', (code) => {
+            console.log(code)
             var code = code.toString();
         });
 

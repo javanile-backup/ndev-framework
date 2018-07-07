@@ -5,6 +5,7 @@
  */
 
 const basename = require('path').basename
+    , exec = require('child_process').execSync
     , join = require('path').join
     , util = require('./util')
     , repo = require('./repo')
@@ -51,12 +52,13 @@ module.exports = {
         if (!util.fileExists(packageJsonFile)) {
             util.info(args[0], "Create 'package.json' file.")
             var data = util.loadJson(join(__dirname, '../tpl/package.json'))
-            data.name = args[0]
+            data.name = basename(args[0])
             try {
-                data.author.name = exec('cd ' + moduleDir + '&& git config user.name')+''
-                data.author.email = exec('cd ' + moduleDir + '&& git config user.email')+''
-                data.repository.url = exec('cd ' + moduleDir + '&& git config --get remote.origin.url')+''
+                data.author.name = (exec('cd ' + moduleDir + '&& git config user.name')+'').trim()
+                data.author.email = (exec('cd ' + moduleDir + '&& git config user.email')+'').trim()
+                data.repository.url = (exec('cd ' + moduleDir + '&& git config --get remote.origin.url')+'').trim()
             } catch (e) {
+                console.log(e);
                 util.err("Check manually 'ndev_modules/" + name + "/package.json' file.");
             }
             util.saveJson(packageJsonFile, data);
@@ -158,6 +160,7 @@ module.exports = {
                         var alias = args[1] || basename(args[0], '.git');
                         util.info(name, 'Cloning ' + args[0]);
                         this.exec('clone', [args[0], name, alias], (err) => {
+                            console.log('clone ret', err)
                             return cb(err);
                         })
                     })
@@ -351,11 +354,11 @@ module.exports = {
      * @param args
      * @param callback
      */
-    exec: function (cmd, args, callback) {
+    exec: function (cmd, args, cb) {
         args.unshift(this.cwd)
 
-        return util.exec(cmd, args, function (resp) {
-            callback(util.log(resp));
+        return util.exec(cmd, args, (err) => {
+            cb(err);
         })
     }
 };
