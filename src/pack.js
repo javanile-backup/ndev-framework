@@ -37,7 +37,7 @@ module.exports = {
      */
     loadPackageJson: function (name, cwd) {
         cwd = cwd || process.cwd()
-        var file = join(cwd, 'node_modules', name, 'package.json');
+        var file = join(cwd, 'ndev_modules', name, 'package.json');
         return util.loadJson(file);
     },
 
@@ -49,7 +49,7 @@ module.exports = {
      */
     savePackageJson: function (name, info, cwd) {
         cwd = cwd || process.cwd()
-        var file = join(cwd, 'node_modules', name, 'package.json');
+        var file = join(cwd, 'ndev_modules', name, 'package.json');
         util.saveJson(file, info);
     },
 

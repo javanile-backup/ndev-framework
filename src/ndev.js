@@ -284,31 +284,41 @@ module.exports = {
      */
     cmdPublish: function (args, callback) {
         if (!args[0]) {
-            return util.err('&require-module', {cmd: 'publish'});
+            return util.err('&require-module', {cmd: 'publish'})
         }
 
-        var ver = pack.versionUpdate(args[0], this.cwd);
+        var ver = pack.versionUpdate(args[0], this.cwd)
+        var name = args[0].trim()
 
-        util.info(args[0], "Publish new version '${ver}'", {ver: ver});
+        if (!util.dirExists(join(this.cwd, 'ndev_modules', name))) {
+            return cb(util.err('&package-not-found', { pack: name }))
+        }
+
+        util.info(name, "Publish new version '${ver}'", {ver: ver});
 
         return this.exec('publish', args, callback);
     },
 
     /**
+     * Commit package changes on repository.
      *
      * @param args
      */
-    cmdCommit: function (args, callback) {
+    cmdCommit: function (args, cb) {
         if (!args[0]) {
-            return util.err('&require-module', {cmd: 'commit'});
+            return util.err('&require-package', {cmd: 'commit'});
         }
 
-        util.info(args[0], 'Commit and push changes (git login)');
+        var name = args.shift().trim();
+        var info = util.ucfirst(args.join(' ').trim()) || 'Update from ' + pack.getVersion(name, this.cwd);
 
-        var module = args.shift().trim();
-        var message = util.ucfirst(args.join(' ').trim()) || 'Update from ' + pack.getVersion(module, this.cwd);
+        if (!util.dirExists(join(this.cwd, 'ndev_modules', name))) {
+            return cb(util.err('&package-not-found', { pack: name }));
+        }
 
-        return this.exec('commit', [module, message], callback);
+        util.info(name, 'Commit and push changes (git login)');
+
+        return this.exec('commit', [name, info], cb);
     },
 
     /**
@@ -317,14 +327,18 @@ module.exports = {
      */
     cmdUpdate: function (args, callback) {
         if (!args[0]) {
-            return util.err('&require-module', {cmd: 'update'});
+            return util.err('&require-package', {cmd: 'update'});
+        }
+
+        var name = args.shift().trim();
+
+        if (!util.dirExists(join(this.cwd, 'ndev_modules', name))) {
+            return cb(util.err('&package-not-found', { pack: name }));
         }
 
         util.info(args[0], 'Update source code (git login)');
 
-        var module = args.shift().trim();
-
-        return this.exec('update', [module], callback);
+        return this.exec('update', [name], callback);
     },
 
     /**
@@ -348,7 +362,7 @@ module.exports = {
     },
 
     /**
-     * Execute ndev command.
+     * Execute ndev exec command.
      *
      * @param cmd
      * @param args
@@ -361,4 +375,4 @@ module.exports = {
             cb(err);
         })
     }
-};
+}
